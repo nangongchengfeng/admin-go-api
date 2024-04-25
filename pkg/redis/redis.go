@@ -3,8 +3,9 @@ package redis
 import (
 	"admin-go-api/common/config"
 	"context"
+
+	"github.com/go-redis/redis/v8"
 )
-import "github.com/go-redis/redis/v8"
 
 /**
  * @Author: 南宫乘风
@@ -19,7 +20,7 @@ var (
 )
 
 // 初始化连接
-func SetupRdisDb() error {
+func SetupRedisDb() error {
 	var ctx = context.Background()
 	RedisDb = redis.NewClient(&redis.Options{
 		Addr:     config.Config.Redis.Address,
