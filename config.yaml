@@ -28,3 +28,10 @@ imageSettings:
   uploadDir: /admin-api/upload/
   #本地ip地址（线上地址可以更换）
   imageHost: http://localhost:2000
+log:
+  path: ./log
+  name: sys
+  #输出控制台
+  model: console
+  # 输出到文件
+  # model: file

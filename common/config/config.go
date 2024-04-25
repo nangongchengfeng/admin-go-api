@@ -19,6 +19,7 @@ type config struct {
 	Db            db            `yaml:"db"`
 	Redis         redis         `yaml:"redis"`
 	ImageSettings imageSettings `yaml:"imageSettings"`
+	Log           log           `yaml:"log"`
 }
 
 // 项目端口配置
@@ -50,6 +51,13 @@ type redis struct {
 type imageSettings struct {
 	UploadDir string `yaml:"uploadDir"`
 	ImageHost string `yaml:"imageHost"`
+}
+
+// log日志
+type log struct {
+	Path  string `yaml:"path"`
+	Name  string `yaml:"name"`
+	Model string `yaml:"model"`
 }
 
 // Config 全局变量
