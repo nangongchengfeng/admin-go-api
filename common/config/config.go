@@ -16,12 +16,26 @@ import (
 // 文件配置
 type config struct {
 	Server server `yaml:"server"`
+	Db     db     `yaml:"db"`
 }
 
 // 项目端口配置
 type server struct {
 	Address string `yaml:"address"`
 	Model   string `yaml:"model"`
+}
+
+// 数据库配置
+type db struct {
+	Dialects string `yaml:"dialects"`
+	Host     string `yaml:"host"`
+	Port     int    `yaml:"port"`
+	Db       string `yaml:"db"`
+	Username string `yaml:"username"`
+	Password string `yaml:"password"`
+	Charset  string `yaml:"charset"`
+	MaxIdle  int    `yaml:"maxIdle"`
+	MaxOpen  int    `yaml:"maxOpen"`
 }
 
 // Config 全局变量
