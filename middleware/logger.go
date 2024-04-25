@@ -5,9 +5,8 @@ import (
 	"io/ioutil"
 	"time"
 
-	"github.com/sirupsen/logrus"
-
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 /**
