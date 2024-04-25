@@ -10,23 +10,29 @@ package result
 
 // Codes Code 定义装置错误码
 type Codes struct {
-	SUCCESS uint
-	FAILED  uint
-	Message map[uint]string
+	SUCCESS         uint
+	FAILED          uint
+	Message         map[uint]string
+	NOAUTH          uint
+	AUTHFORMATERROR uint
 }
 
 // ApiCode 状态码
 
 var ApiCode = &Codes{
-	SUCCESS: 200,
-	FAILED:  501,
+	SUCCESS:         200,
+	FAILED:          501,
+	NOAUTH:          401,
+	AUTHFORMATERROR: 405,
 }
 
 // init 初始化
 func init() {
 	ApiCode.Message = map[uint]string{
-		ApiCode.SUCCESS: "操作成功",
-		ApiCode.FAILED:  "操作失败",
+		ApiCode.SUCCESS:         "操作成功",
+		ApiCode.FAILED:          "操作失败",
+		ApiCode.NOAUTH:          "请求头的auth为空",
+		ApiCode.AUTHFORMATERROR: "请求头的auth格式错误",
 	}
 }
 
