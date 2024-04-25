@@ -21,3 +21,10 @@ db:
 redis:
   address: 192.168.102.20:6379
   password: 123456
+
+#图片上传配置
+imageSettings:
+  #本地磁盘
+  uploadDir: /admin-api/upload/
+  #本地ip地址（线上地址可以更换）
+  imageHost: http://localhost:2000

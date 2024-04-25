@@ -15,9 +15,10 @@ import (
 
 // 文件配置
 type config struct {
-	Server server `yaml:"server"`
-	Db     db     `yaml:"db"`
-	Redis  redis  `yaml:"redis"`
+	Server        server        `yaml:"server"`
+	Db            db            `yaml:"db"`
+	Redis         redis         `yaml:"redis"`
+	ImageSettings imageSettings `yaml:"imageSettings"`
 }
 
 // 项目端口配置
@@ -43,6 +44,12 @@ type db struct {
 type redis struct {
 	Address  string `yaml:"address"`
 	Password string `yaml:"password"`
+}
+
+// 图片上传地址
+type imageSettings struct {
+	UploadDir string `yaml:"uploadDir"`
+	ImageHost string `yaml:"imageHost"`
 }
 
 // Config 全局变量
