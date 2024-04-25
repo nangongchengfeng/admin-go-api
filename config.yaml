@@ -1,0 +1,4 @@
+#项目启动的端口
+server:
+  address: 0.0.0.0:2022
+  model: debug
