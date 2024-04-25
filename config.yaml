@@ -16,3 +16,8 @@ db:
   maxIdle: 10
   #最大连接数
   maxOpen: 100
+
+#redis配置
+redis:
+  address: 192.168.102.20:6379
+  password: 123456

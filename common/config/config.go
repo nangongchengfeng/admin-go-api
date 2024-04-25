@@ -17,6 +17,7 @@ import (
 type config struct {
 	Server server `yaml:"server"`
 	Db     db     `yaml:"db"`
+	Redis  redis  `yaml:"redis"`
 }
 
 // 项目端口配置
@@ -36,6 +37,12 @@ type db struct {
 	Charset  string `yaml:"charset"`
 	MaxIdle  int    `yaml:"maxIdle"`
 	MaxOpen  int    `yaml:"maxOpen"`
+}
+
+// redis配置
+type redis struct {
+	Address  string `yaml:"address"`
+	Password string `yaml:"password"`
 }
 
 // Config 全局变量
