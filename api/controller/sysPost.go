@@ -68,3 +68,16 @@ func GetSysPostById(c *gin.Context) {
 	Id, _ := strconv.Atoi(c.Query("id"))
 	service.SysPostService().GetSysPostById(c, Id)
 }
+
+// UpdateSysPost 修改岗位
+// @Summary 修改岗位接口
+// @Tags 岗位管理
+// @Produce json
+// @Description 修改岗位接口
+// @Param data body entity.SysPost true "data"
+// @Success 200 {object} result.Result
+// @router /api/post/update [post]
+func UpdateSysPost(c *gin.Context) {
+	_ = c.BindJSON(&sysPost)
+	service.SysPostService().UpdateSysPost(c, sysPost)
+}

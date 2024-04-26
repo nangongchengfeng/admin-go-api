@@ -95,14 +95,33 @@ func GetSysPostList(PageNum, PageSize int, PostName, PostStatus, BeginTime, EndT
 
 // GetSysPostById 根据提供的id查询系统中的岗位信息。
 // 参数:
-//
-//	id int - 岗位的唯一标识符。
-//
+// id int - 岗位的唯一标识符
 // 返回值:
 //
 //	entity.SysPost - 查询到的岗位信息。
 func GetSysPostById(id int) (sysPost entity.SysPost) {
 	// 使用ORM框架的Find方法，根据id查询岗位信息并存储到sysPost变量中
 	Db.Find(&sysPost, id)
+	return sysPost
+}
+
+// UpdateSysPost 用于修改岗位信息
+// 参数:
+// post - 需要修改的岗位实体，包含岗位的全部或部分信息
+// 返回值:
+// sysPost - 修改后的岗位实体，包含完整的岗位信息
+func UpdateSysPost(post entity.SysPost) (sysPost entity.SysPost) {
+	// 根据ID查询岗位信息
+	Db.Find(&sysPost, post.ID)
+	// 更新岗位信息
+	sysPost.PostCode = post.PostCode
+	sysPost.PostName = post.PostName
+	sysPost.PostStatus = post.PostStatus
+	// 如果有提供备注信息，则更新备注
+	if post.Remark != "" {
+		sysPost.Remark = post.Remark
+	}
+	// 保存更新后的岗位信息
+	Db.Save(&sysPost)
 	return sysPost
 }

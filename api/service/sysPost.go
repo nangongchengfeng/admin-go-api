@@ -20,9 +20,15 @@ type ISysPostService interface {
 	CreateSysPost(c *gin.Context, sysPost entity.SysPost)
 	GetSysPostList(c *gin.Context, PageNum, PageSize int, PostName, PostStatus, BeginTime, EndTime string)
 	GetSysPostById(c *gin.Context, id int)
+	UpdateSysPost(c *gin.Context, sysPost entity.SysPost)
 }
 
 type SysPostSeerviceImpl struct{}
+
+func (s SysPostSeerviceImpl) UpdateSysPost(c *gin.Context, sysPost entity.SysPost) {
+	sysPost = dao.UpdateSysPost(sysPost)
+	result.Success(c, sysPost)
+}
 
 // GetSysPostById 通过ID获取系统岗位信息
 func (s SysPostSeerviceImpl) GetSysPostById(c *gin.Context, id int) {

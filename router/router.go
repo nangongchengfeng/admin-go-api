@@ -47,4 +47,5 @@ func register(router *gin.Engine) {
 	router.POST("/api/post/add", controller.CreateSysPost)
 	router.GET("/api/post/list", controller.GetSysPostList)
 	router.GET("/api/post/info", controller.GetSysPostById)
+	router.POST("/api/post/update", controller.UpdateSysPost)
 }
