@@ -92,3 +92,17 @@ func GetSysPostList(PageNum, PageSize int, PostName, PostStatus, BeginTime, EndT
 	curDb.Limit(PageSize).Offset((PageNum - 1) * PageSize).Order("create_time desc").Find(&sysPost)
 	return sysPost, count
 }
+
+// GetSysPostById 根据提供的id查询系统中的岗位信息。
+// 参数:
+//
+//	id int - 岗位的唯一标识符。
+//
+// 返回值:
+//
+//	entity.SysPost - 查询到的岗位信息。
+func GetSysPostById(id int) (sysPost entity.SysPost) {
+	// 使用ORM框架的Find方法，根据id查询岗位信息并存储到sysPost变量中
+	Db.Find(&sysPost, id)
+	return sysPost
+}

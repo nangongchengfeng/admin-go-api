@@ -36,12 +36,12 @@ func CreateSysPost(c *gin.Context) {
 // @Tags 岗位管理
 // @Produce json
 // @Description 获取岗位列表接口
-// @Param PageNum query string false "分页数"
-// @Param PageSize query string false "每页数量"
-// @Param PostName query string false "岗位名称"
-// @Param PostStatus query string false "状态： 1->启动 2->停用"
-// @Param BeginTime query string false "开始时间"
-// @Param EndTime query string false "结束时间"
+// @Param pageNum query string false "分页数"
+// @Param pageSize query string false "每页数量"
+// @Param postName query string false "岗位名称"
+// @Param postStatus query string false "状态： 1->启动 2->停用"
+// @Param beginTime query string false "开始时间"
+// @Param endTime query string false "结束时间"
 // @Success 200 {object} result.Result
 // @router /api/post/list [get]
 func GetSysPostList(c *gin.Context) {
@@ -54,4 +54,17 @@ func GetSysPostList(c *gin.Context) {
 	BeginTime = c.DefaultQuery("BeginTime", "")
 	EndTime = c.DefaultQuery("EndTime", "")
 	service.SysPostService().GetSysPostList(c, PageNum, PageSize, PostName, PostStatus, BeginTime, EndTime)
+}
+
+// GetSysPostById 获取岗位详情
+// @Summary 根据ID获取岗位详情接口
+// @Tags 岗位管理
+// @Produce json
+// @Description 根据ID获取岗位详情接口
+// @Param id query string true "ID"
+// @Success 200 {object} result.Result
+// @router /api/post/info [get]
+func GetSysPostById(c *gin.Context) {
+	Id, _ := strconv.Atoi(c.Query("id"))
+	service.SysPostService().GetSysPostById(c, Id)
 }

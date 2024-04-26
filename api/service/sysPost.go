@@ -19,9 +19,16 @@ import (
 type ISysPostService interface {
 	CreateSysPost(c *gin.Context, sysPost entity.SysPost)
 	GetSysPostList(c *gin.Context, PageNum, PageSize int, PostName, PostStatus, BeginTime, EndTime string)
+	GetSysPostById(c *gin.Context, id int)
 }
 
 type SysPostSeerviceImpl struct{}
+
+// GetSysPostById 通过ID获取系统岗位信息
+func (s SysPostSeerviceImpl) GetSysPostById(c *gin.Context, id int) {
+	// 调用dao层方法，根据id获取系统岗位信息，并通过result封装返回给前端
+	result.Success(c, dao.GetSysPostById(id))
+}
 
 // GetSysPostList 分页查询岗位列表
 func (s SysPostSeerviceImpl) GetSysPostList(c *gin.Context, PageNum, PageSize int, PostName, PostStatus, BeginTime, EndTime string) {
