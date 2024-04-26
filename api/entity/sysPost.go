@@ -23,3 +23,13 @@ type SysPost struct {
 func (SysPost) TableName() string {
 	return "sys_post"
 }
+
+// SysPostIdDto ID 参数
+type SysPostIdDto struct {
+	Id uint `json:"id"`
+}
+
+// DelSysPostDto 删除岗位参数
+type DelSysPostDto struct {
+	Ids []uint `json:"ids"`
+}

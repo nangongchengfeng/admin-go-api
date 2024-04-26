@@ -21,10 +21,18 @@ type ISysPostService interface {
 	GetSysPostList(c *gin.Context, PageNum, PageSize int, PostName, PostStatus, BeginTime, EndTime string)
 	GetSysPostById(c *gin.Context, id int)
 	UpdateSysPost(c *gin.Context, sysPost entity.SysPost)
+	DeleteSysPostById(c *gin.Context, dto entity.SysPostIdDto)
 }
 
 type SysPostSeerviceImpl struct{}
 
+// DeleteSysPostById 删除岗位
+func (s SysPostSeerviceImpl) DeleteSysPostById(c *gin.Context, dto entity.SysPostIdDto) {
+	dao.DeleteSysPostById(dto)
+	result.Success(c, true)
+}
+
+// UpdateSysPost 修改岗位
 func (s SysPostSeerviceImpl) UpdateSysPost(c *gin.Context, sysPost entity.SysPost) {
 	sysPost = dao.UpdateSysPost(sysPost)
 	result.Success(c, sysPost)

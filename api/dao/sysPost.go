@@ -125,3 +125,8 @@ func UpdateSysPost(post entity.SysPost) (sysPost entity.SysPost) {
 	Db.Save(&sysPost)
 	return sysPost
 }
+
+// DeleteSysPostById 根据Id删除岗位信息
+func DeleteSysPostById(dto entity.SysPostIdDto) {
+	Db.Delete(&entity.SysPost{}, dto.Id)
+}
