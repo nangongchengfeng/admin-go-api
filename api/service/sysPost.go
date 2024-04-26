@@ -22,9 +22,16 @@ type ISysPostService interface {
 	GetSysPostById(c *gin.Context, id int)
 	UpdateSysPost(c *gin.Context, sysPost entity.SysPost)
 	DeleteSysPostById(c *gin.Context, dto entity.SysPostIdDto)
+	BatchDeleteSysPost(c *gin.Context, dto entity.DelSysPostDto)
 }
 
 type SysPostSeerviceImpl struct{}
+
+// BatchDeleteSysPost 批量删除岗位
+func (s SysPostSeerviceImpl) BatchDeleteSysPost(c *gin.Context, dto entity.DelSysPostDto) {
+	dao.BatchDeleteSysPost(dto)
+	result.Success(c, true)
+}
 
 // DeleteSysPostById 删除岗位
 func (s SysPostSeerviceImpl) DeleteSysPostById(c *gin.Context, dto entity.SysPostIdDto) {

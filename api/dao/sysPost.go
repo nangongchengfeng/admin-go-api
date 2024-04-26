@@ -130,3 +130,8 @@ func UpdateSysPost(post entity.SysPost) (sysPost entity.SysPost) {
 func DeleteSysPostById(dto entity.SysPostIdDto) {
 	Db.Delete(&entity.SysPost{}, dto.Id)
 }
+
+// BatchDeleteSysPost 批量删除岗位信息
+func BatchDeleteSysPost(dto entity.DelSysPostDto) {
+	Db.Where("id in ?", dto.Ids).Delete(&entity.SysPost{})
+}
