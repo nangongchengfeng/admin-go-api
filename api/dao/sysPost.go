@@ -2,7 +2,9 @@ package dao
 
 import (
 	"admin-go-api/api/entity"
+	"admin-go-api/common/util"
 	. "admin-go-api/pkg/db"
+	"time"
 )
 
 /**
@@ -45,7 +47,7 @@ func CreateSysPost(sysPost entity.SysPost) bool {
 		PostCode:   sysPost.PostCode,
 		PostName:   sysPost.PostName,
 		PostStatus: sysPost.PostStatus,
-		CreateTime: sysPost.CreateTime,
+		CreateTime: util.HTime{Time: time.Now()},
 		Remark:     sysPost.Remark,
 	}
 	// 保存addSysPost
