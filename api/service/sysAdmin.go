@@ -29,6 +29,9 @@ type ISysAdminService interface {
 type SysAdminServiceImpl struct{}
 
 // Login 用户登录
+// Login 登录函数
+// :c *gin.Context 上下文
+// :dto entity.LoginDto 登录参数
 func (s SysAdminServiceImpl) Login(c *gin.Context, dto entity.LoginDto) {
 	// 登录参数校验
 	err := validator.New().Struct(dto)
@@ -51,8 +54,9 @@ func (s SysAdminServiceImpl) Login(c *gin.Context, dto entity.LoginDto) {
 			result.ApiCode.GetMessage(result.ApiCode.CAPTCHANOTTRUE))
 		return
 	}
-	// 校验
+	// 校验 用户名和密码 查询数据库，获取用户信息
 	sysAdmin := dao.SysAdminDetail(dto)
+
 	if sysAdmin.Password != util.EncryptionMd5(dto.Password) {
 		result.Failed(c, int(result.ApiCode.PASSWORDNOTTRUE),
 			result.ApiCode.GetMessage(result.ApiCode.PASSWORDNOTTRUE))
@@ -78,8 +82,11 @@ func (s SysAdminServiceImpl) Login(c *gin.Context, dto entity.LoginDto) {
 	result.Success(c, map[string]interface{}{"token": tokenString, "sysAdmin": sysAdmin})
 }
 
+// 定义一个系统管理员服务实现类
 var sysAdminService = SysAdminServiceImpl{}
 
+// SysAdminService 定义一个系统管理员服务接口
 func SysAdminService() ISysAdminService {
+	// 返回系统管理员服务实现类的指针
 	return &sysAdminService
 }
