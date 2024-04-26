@@ -149,3 +149,8 @@ func UpdateSysPostStatus(dto entity.UpdateSysPostStatusDto) {
 	// 保存更新后的岗位信息
 	Db.Save(&sysPost)
 }
+
+func QuerySysPostVoList() (sysPostVo []entity.SysPostVo) {
+	Db.Table("sys_post").Select("id,post_name").Scan(&sysPostVo)
+	return sysPostVo
+}

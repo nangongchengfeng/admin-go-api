@@ -39,3 +39,8 @@ type UpdateSysPostStatusDto struct {
 	Id         int `json:"id"`
 	PostStatus int `json:"postStatus"` // (1 正常  2 停用)
 }
+
+type SysPostVo struct {
+	Id       int    `json:"id"`       // ID
+	PostName string `json:"postName"` // 岗位名称
+}

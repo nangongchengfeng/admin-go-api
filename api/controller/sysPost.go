@@ -125,3 +125,14 @@ func UpdateSysPostStatus(c *gin.Context) {
 	_ = c.BindJSON(&dto)
 	service.SysPostService().UpdateSysPostStatus(c, dto)
 }
+
+// QuerySysPostVoList 获取岗位列表
+// @Summary 获取岗位列表接口
+// @Tags 岗位管理
+// @Produce json
+// @Description 获取岗位列表接口
+// @Success 200 {object} result.Result
+// @router /api/post/vo/list [get]
+func QuerySysPostVoList(c *gin.Context) {
+	service.SysPostService().QuerySysPostVoList(c)
+}
