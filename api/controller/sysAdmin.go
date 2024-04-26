@@ -17,6 +17,7 @@ import (
 
 // Login
 // @Summary 用户登录接口
+// @Tags 用户管理
 // @Produce json
 // @Description 用户登录接口
 // @Param data body entity.LoginDto true "data"

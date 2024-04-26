@@ -21,6 +21,12 @@ type Codes struct {
 	CAPTCHANOTTRUE             uint
 	PASSWORDNOTTRUE            uint
 	STATUSISENABLE             uint
+	ROLENAMEALREADYEXISTS      uint
+	MENUISEXIST                uint
+	DELSYSMENUFAILED           uint
+	DEPTISEXIST                uint
+	DEPTISDISTRIBUTE           uint
+	POSTALREADYEXISTS          uint
 }
 
 // ApiCode 状态码
@@ -36,6 +42,12 @@ var ApiCode = &Codes{
 	CAPTCHANOTTRUE:             409,
 	PASSWORDNOTTRUE:            410,
 	STATUSISENABLE:             411,
+	ROLENAMEALREADYEXISTS:      412,
+	MENUISEXIST:                413,
+	DELSYSMENUFAILED:           414,
+	DEPTISEXIST:                415,
+	DEPTISDISTRIBUTE:           416,
+	POSTALREADYEXISTS:          417,
 }
 
 // init 初始化
@@ -51,6 +63,12 @@ func init() {
 		ApiCode.CAPTCHANOTTRUE:             "验证码不正确，请重新输入",
 		ApiCode.PASSWORDNOTTRUE:            "密码不正确",
 		ApiCode.STATUSISENABLE:             "您的账号已被停用,请联系管理员",
+		ApiCode.ROLENAMEALREADYEXISTS:      "角色名称或权限字符已存在，请重新输入",
+		ApiCode.MENUISEXIST:                "菜单名称已存在，请重新输入",
+		ApiCode.DELSYSMENUFAILED:           "菜单已分配，不能删除",
+		ApiCode.DEPTISEXIST:                "部门名称已存在，请重新输入",
+		ApiCode.DEPTISDISTRIBUTE:           "部门已分配，不能删除",
+		ApiCode.POSTALREADYEXISTS:          "岗位名称或岗位编码已存在，请重新输入",
 	}
 }
 

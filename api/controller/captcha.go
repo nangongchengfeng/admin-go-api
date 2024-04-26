@@ -17,6 +17,7 @@ import (
 
 // 验证码
 // @Summary 验证码接口
+// @Tags 工具接口
 // @Produce json
 // @Description 验证码接口
 // @Success 200 {object} result.Result
