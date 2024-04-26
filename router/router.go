@@ -1,11 +1,14 @@
 package router
 
 import (
+	"admin-go-api/api/controller"
 	"admin-go-api/common/config"
 	"admin-go-api/middleware"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 /**
@@ -33,5 +36,6 @@ func InitRouter() *gin.Engine {
 // register 路由接口
 func register(router *gin.Engine) {
 	// todo 后续接口url
-
+	router.GET("/api/captcha", controller.Captcha)
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }

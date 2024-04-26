@@ -11,4 +11,5 @@ package constant
 const (
 	// ContextKeyUserObj 存登录的用户
 	ContextKeyUserObj = "authedUserObj"
+	LOGIN_CODE        = "login_code_"
 )

@@ -2,6 +2,7 @@ package main
 
 import (
 	"admin-go-api/common/config"
+	_ "admin-go-api/docs"
 	"admin-go-api/pkg/db"
 	"admin-go-api/pkg/log"
 	"admin-go-api/pkg/redis"
@@ -23,6 +24,12 @@ import (
  * @Date: 2024-04-25 17:03
  */
 
+// @title 通用后台管理系统
+// @version 1.0
+// @description 后台管理系统API接口文档
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
 func main() {
 	// 加载日志
 	log := log.Log()
