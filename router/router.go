@@ -50,4 +50,5 @@ func register(router *gin.Engine) {
 	router.PUT("/api/post/update", controller.UpdateSysPost)
 	router.DELETE("/api/post/delete", controller.DeleteSysPostById)
 	router.DELETE("/api/post/batch/delete", controller.BatchDeleteSysPost)
+	router.PUT("/api/post/updateStatus", controller.UpdateSysPostStatus)
 }

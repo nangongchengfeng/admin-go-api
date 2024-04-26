@@ -135,3 +135,17 @@ func DeleteSysPostById(dto entity.SysPostIdDto) {
 func BatchDeleteSysPost(dto entity.DelSysPostDto) {
 	Db.Where("id in ?", dto.Ids).Delete(&entity.SysPost{})
 }
+
+// UpdateSysPostStatus 用于更新岗位的状态。
+// 参数 dto: 包含需要更新的岗位ID和新的岗位状态。
+func UpdateSysPostStatus(dto entity.UpdateSysPostStatusDto) {
+	// 根据ID查询岗位信息
+	var sysPost entity.SysPost
+	Db.Find(&sysPost, dto.Id)
+
+	// 更新岗位状态
+	sysPost.PostStatus = dto.PostStatus
+
+	// 保存更新后的岗位信息
+	Db.Save(&sysPost)
+}

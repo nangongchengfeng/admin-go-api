@@ -33,3 +33,9 @@ type SysPostIdDto struct {
 type DelSysPostDto struct {
 	Ids []uint `json:"ids"`
 }
+
+// UpdateSysPostStatusDto 更新状态参数
+type UpdateSysPostStatusDto struct {
+	Id         int `json:"id"`
+	PostStatus int `json:"postStatus"` // (1 正常  2 停用)
+}
