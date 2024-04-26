@@ -52,4 +52,7 @@ func register(router *gin.Engine) {
 	router.DELETE("/api/post/batch/delete", controller.BatchDeleteSysPost)
 	router.PUT("/api/post/updateStatus", controller.UpdateSysPostStatus)
 	router.GET("/api/post/vo/list", controller.QuerySysPostVoList)
+
+	// 部门接口
+	router.GET("/api/dept/list", controller.GetSysDeptList)
 }
