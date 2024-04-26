@@ -59,3 +59,36 @@ func CreateSysPost(sysPost entity.SysPost) bool {
 	// 否则返回false
 	return false
 }
+
+// GetSysPostList 分页查询岗位列表
+// 参数：
+// PageNum: 查询的当前页码
+// PageSize: 每页显示的数量
+// PostName: 岗位名称，可为空，为空时不过滤岗位名称
+// PostStatus: 岗位状态，可为空，为空时不过滤岗位状态
+// BeginTime: 查询开始时间，格式为YYYY-MM-DD，可为空，为空时不过滤创建时间下限
+// EndTime: 查询结束时间，格式为YYYY-MM-DD，可为空，为空时不过滤创建时间上限
+// 返回值：
+// sysPost: 查询到的岗位实体列表
+// count: 查询到的岗位总数
+func GetSysPostList(PageNum, PageSize int, PostName, PostStatus, BeginTime, EndTime string) (sysPost []entity.SysPost, count int64) {
+	curDb := Db.Table("sys_post") // 从数据库中获取"sys_post"表的实例
+	// 根据提供的条件筛选查询
+	if PostName != "" {
+		curDb = curDb.Where("post_name = ?", PostName)
+	}
+	if PostStatus != "" {
+		curDb = curDb.Where("post_status = ?", PostStatus)
+	}
+	if BeginTime != "" {
+		curDb = curDb.Where("create_time >= ?", BeginTime)
+	}
+	if EndTime != "" {
+		curDb = curDb.Where("create_time <= ?", EndTime)
+	}
+	// 计算符合条件的记录总数
+	curDb.Count(&count)
+	// 进行分页查询，并按创建时间降序排列
+	curDb.Limit(PageSize).Offset((PageNum - 1) * PageSize).Order("create_time desc").Find(&sysPost)
+	return sysPost, count
+}
