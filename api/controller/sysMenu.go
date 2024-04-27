@@ -53,3 +53,17 @@ func UpdateSysMenu(c *gin.Context) {
 	_ = c.ShouldBindJSON(&sysMenu)
 	service.SysMenuService().UpdateSysMenu(c, sysMenu)
 }
+
+// DeleteSysMenu 删除菜单
+// @Summary DeleteSysMenu 删除菜单
+// @Description 删除菜单
+// @Tags 菜单管理
+// @Produce json
+// @Param sysDept body entity.SysMenuIdDto true "部门信息"
+// @Success 200 {object} result.Result
+// @router /api/menu/delete [delete]
+func DeleteSysMenu(c *gin.Context) {
+	var dto entity.SysMenuIdDto
+	_ = c.ShouldBindJSON(&dto)
+	service.SysMenuService().DeleteSysMenu(c, dto)
+}

@@ -109,3 +109,33 @@ func UpdateSysMenu(menu entity.SysMenu) (sysMenu entity.SysMenu) {
 	Db.Save(&sysMenu)
 	return sysMenu
 }
+
+// GetSysRoleMenu 根据菜单ID获取菜单权限信息
+//
+// 参数:
+// dto - 包含菜单ID的数据传输对象
+//
+// 返回值:
+// 返回一个实体SysRoleMenu，包含根据菜单ID查询到的菜单权限信息
+func GetSysRoleMenu(dto entity.SysMenuIdDto) (sysRoleMenu entity.SysRoleMenu) {
+	// 使用菜单ID查询数据库，获取第一条匹配的数据
+	Db.Where("menu_id = ?", dto.Id).First(&sysRoleMenu)
+	return sysRoleMenu
+}
+
+// DeleteSysMenu 删除指定菜单
+// 参数 dto: 包含菜单ID的数据传输对象
+// 返回值 bool: 删除操作是否成功。成功返回true，失败返回false。
+func DeleteSysMenu(dto entity.SysMenuIdDto) bool {
+	// 根据菜单ID获取关联的角色菜单信息
+	sysRoleMenu := GetSysRoleMenu(dto)
+	// 如果该菜单ID有关联的角色菜单，则不删除，返回false
+	if sysRoleMenu.MenuId > 0 {
+		return false
+	}
+	// 在数据库中根据ID删除菜单记录
+	Db.Where("parent_id = ?", dto.Id).Delete(&entity.SysMenu{})
+	// 删除关联的子菜单
+	Db.Delete(&entity.SysMenu{}, dto.Id)
+	return true
+}

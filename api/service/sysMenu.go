@@ -20,8 +20,19 @@ type ISysMenuService interface {
 	CreateSysMenu(c *gin.Context, sysMenu entity.SysMenu)
 	QuerySysMenuVoList(c *gin.Context)
 	UpdateSysMenu(c *gin.Context, sysMenu entity.SysMenu)
+	DeleteSysMenu(c *gin.Context, dto entity.SysMenuIdDto)
 }
 type SysMenuServiceImpl struct {
+}
+
+// DeleteSysMenu 删除菜单
+func (s SysMenuServiceImpl) DeleteSysMenu(c *gin.Context, dto entity.SysMenuIdDto) {
+	isDelete := dao.DeleteSysMenu(dto)
+	if !isDelete {
+		result.Failed(c, int(result.ApiCode.DELSYSMENUFAILED), result.ApiCode.GetMessage(result.ApiCode.DELSYSMENUFAILED))
+	} else {
+		result.Success(c, true)
+	}
 }
 
 // UpdateSysMenu 更新菜单

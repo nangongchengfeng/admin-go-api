@@ -31,7 +31,7 @@ func (SysMenu) TableName() string {
 	return "sys_menu"
 }
 
-// Id参数
+// SysMenuIdDto Id参数
 type SysMenuIdDto struct {
 	Id uint `json:"id"` // ID
 }
