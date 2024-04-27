@@ -2,7 +2,9 @@ package dao
 
 import (
 	"admin-go-api/api/entity"
+	"admin-go-api/common/util"
 	. "admin-go-api/pkg/db"
+	"time"
 )
 
 /**
@@ -34,4 +36,48 @@ func GetSysDeptList(DeptName string, DeptStatus string) (sysDept []entity.SysDep
 	// 执行查询，并将结果存储到sysDept变量中
 	curDb.Find(&sysDept)
 	return sysDept // 返回查询结果
+}
+
+// GetSysDeptByName 根据部门名称获取部门信息
+func GetSysDeptByName(deptName string) (sysDept entity.SysDept) {
+	Db.Where("dept_name = ?", deptName).First(&sysDept)
+	return sysDept
+}
+
+// CreateSysDept 创建一个系统部门
+// 参数:
+// sysDept - 需要创建的部门实体
+// 返回值:
+// bool - 创建成功返回true，如果部门名称已存在则不创建并返回false
+func CreateSysDept(sysDept entity.SysDept) bool {
+	// 根据部门名称获取已存在的部门信息
+	sysDeptName := GetSysDeptByName(sysDept.DeptName)
+	// 如果已存在相同名称的部门，则不创建
+	if sysDeptName.ID > 0 {
+		return false
+	}
+	// 部门类型为1时，设置部门父ID为0，表示该部门为顶级部门
+	if sysDept.DeptType == 1 {
+		sysDept := entity.SysDept{
+			DeptStatus: sysDept.DeptStatus,
+			ParentId:   0,
+			DeptType:   sysDept.DeptType,
+			DeptName:   sysDept.DeptName,
+			CreateTime: util.HTime{Time: time.Now()},
+		}
+		Db.Create(&sysDept) // 创建部门
+		return true
+	} else {
+		// 部门类型不为1时，使用提供的父ID
+		sysDept := entity.SysDept{
+			DeptStatus: sysDept.DeptStatus,
+			ParentId:   sysDept.ParentId,
+			DeptType:   sysDept.DeptType,
+			DeptName:   sysDept.DeptName,
+			CreateTime: util.HTime{Time: time.Now()},
+		}
+		Db.Create(&sysDept) // 创建部门
+		return true
+	}
+	return false
 }

@@ -55,4 +55,5 @@ func register(router *gin.Engine) {
 
 	// 部门接口
 	router.GET("/api/dept/list", controller.GetSysDeptList)
+	router.POST("/api/dept/add", controller.CreateSysDept)
 }
