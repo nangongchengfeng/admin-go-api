@@ -54,3 +54,15 @@ func GetSysDeptById(c *gin.Context) {
 	Id, _ := strconv.Atoi(c.Query("id"))
 	service.SysDeptService().GetSysDeptById(c, Id)
 }
+
+// UpdateSysDept 修改部门信息
+// @Summary 修改部门信息
+// @Tags 部门管理
+// @Produce json
+// @Param sysDept body entity.SysDept true "部门信息"
+// @Success 200 {object} result.Result
+// @router /api/dept/update [put]
+func UpdateSysDept(c *gin.Context) {
+	_ = c.BindJSON(&sysDept)
+	service.SysDeptService().UpdateSysDept(c, sysDept)
+}

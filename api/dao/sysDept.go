@@ -86,3 +86,17 @@ func GetSysDeptById(Id int) (sysDept entity.SysDept) {
 	Db.First(&sysDept, Id)
 	return sysDept
 }
+
+// UpdateSysDept 更新部门信息
+func UpdateSysDept(dept entity.SysDept) (sysDept entity.SysDept) {
+	// 根据ID首先查询到对应的部门信息
+	Db.First(&sysDept, dept.ID)
+	// 更新部门状态、父部门ID、部门类型和部门名称
+	sysDept.DeptStatus = dept.DeptStatus
+	sysDept.ParentId = dept.ParentId
+	sysDept.DeptType = dept.DeptType
+	sysDept.DeptName = dept.DeptName
+	// 保存更新后的部门信息
+	Db.Save(&sysDept)
+	return sysDept
+}

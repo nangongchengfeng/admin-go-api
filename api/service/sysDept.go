@@ -20,9 +20,16 @@ type ISysDeptService interface {
 	GetSysDeptList(c *gin.Context, DeptName string, DeptStatus string)
 	CreateSysDept(c *gin.Context, sysDept entity.SysDept)
 	GetSysDeptById(c *gin.Context, id int)
+	UpdateSysDept(c *gin.Context, sysDept entity.SysDept)
 }
 
 type SysDeptServiceImpl struct{}
+
+// UpdateSysDept 更新部门
+func (s SysDeptServiceImpl) UpdateSysDept(c *gin.Context, dept entity.SysDept) {
+	sysDept := dao.UpdateSysDept(dept)
+	result.Success(c, sysDept)
+}
 
 // GetSysDeptById 获取部门详情
 func (s SysDeptServiceImpl) GetSysDeptById(c *gin.Context, id int) {
