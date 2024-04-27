@@ -58,4 +58,5 @@ func register(router *gin.Engine) {
 	router.POST("/api/dept/add", controller.CreateSysDept)
 	router.GET("/api/dept/info", controller.GetSysDeptById)
 	router.PUT("/api/dept/update", controller.UpdateSysDept)
+	router.DELETE("/api/dept/delete", controller.DeleteSysDeptById)
 }

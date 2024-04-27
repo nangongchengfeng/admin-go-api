@@ -100,3 +100,26 @@ func UpdateSysDept(dept entity.SysDept) (sysDept entity.SysDept) {
 	Db.Save(&sysDept)
 	return sysDept
 }
+
+// GetSysAdminDept 查询部门是否有人
+func GetSysAdminDept(id int) (sysAdmin entity.SysAdmin) {
+	Db.Where("dept_id = ?", id).First(&sysAdmin)
+	return sysAdmin
+}
+
+// DeleteSysDeptById 删除指定ID的部门及其子部门
+// 参数 dto: 包含部门ID的实体
+// 返回值: 删除成功返回true，如果部门有人存在则不删除，返回false
+func DeleteSysDeptById(dto entity.SysDeptIdDto) bool {
+	// 检查该部门是否为有人存在
+	sysAdmin := GetSysAdminDept(dto.Id)
+	if sysAdmin.ID > 0 {
+		// 如果是有人存在，则不删除
+		return false
+	}
+	// 删除该部门的所有子部门
+	Db.Where("parent_id = ?", dto.Id).Delete(&entity.SysDept{})
+	// 删除该部门本身
+	Db.Delete(&entity.SysDept{}, dto.Id)
+	return true
+}

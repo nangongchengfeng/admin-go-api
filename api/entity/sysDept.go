@@ -25,3 +25,13 @@ type SysDept struct {
 func (SysDept) TableName() string {
 	return "sys_dept"
 }
+
+type SysDeptIdDto struct {
+	Id int `json:"id"`
+}
+
+type SysDeptVo struct {
+	Id       int    `json:"id"`
+	ParentId uint   `json:"parentId"`
+	Label    string `json:"label"`
+}

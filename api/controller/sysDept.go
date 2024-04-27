@@ -66,3 +66,16 @@ func UpdateSysDept(c *gin.Context) {
 	_ = c.BindJSON(&sysDept)
 	service.SysDeptService().UpdateSysDept(c, sysDept)
 }
+
+// DeleteSysDeptById 根据id删除部门
+// @Summary 根据id删除部门
+// @Tags 部门管理
+// @Produce json
+// @Param dto body entity.SysDeptIdDto true "部门id"
+// @Success 200 {object} result.Result
+// @router /api/dept/delete [delete]
+func DeleteSysDeptById(c *gin.Context) {
+	var dto entity.SysDeptIdDto
+	_ = c.BindJSON(&dto)
+	service.SysDeptService().DeleteSysDeptById(c, dto)
+}
