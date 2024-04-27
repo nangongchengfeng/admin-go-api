@@ -88,3 +88,24 @@ func QuerySysMenuVoList() (sysMenuVo []entity.SysMenuVo) {
 	Db.Table("sys_menu").Select("id,menu_name as label,parent_id").Scan(&sysMenuVo)
 	return sysMenuVo
 }
+
+// GetSysMenu 根据菜单ID获取菜单信息
+func GetSysMenu(Id int) (SysMenu entity.SysMenu) {
+	Db.First(&SysMenu, Id)
+	return SysMenu
+}
+
+// UpdateSysMenu 更新菜单信息
+func UpdateSysMenu(menu entity.SysMenu) (sysMenu entity.SysMenu) {
+	Db.First(&sysMenu, menu.ID)
+	sysMenu.ParentId = menu.ParentId
+	sysMenu.MenuName = menu.MenuName
+	sysMenu.Icon = menu.Icon
+	sysMenu.Value = menu.Value
+	sysMenu.MenuType = menu.MenuType
+	sysMenu.Url = menu.Url
+	sysMenu.MenuStatus = menu.MenuStatus
+	sysMenu.Sort = menu.Sort
+	Db.Save(&sysMenu)
+	return sysMenu
+}

@@ -10,6 +10,7 @@ import (
 	"context"
 	"net/http"
 	"os"
+	"os/exec"
 	"os/signal"
 	"time"
 
@@ -24,6 +25,16 @@ import (
  * @Date: 2024-04-25 17:03
  */
 
+// initSwagger 函数用于调用 swag init 命令生成 Swagger 文档
+func initSwagger() error {
+	cmd := exec.Command("swag", "init")
+	err := cmd.Run()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 // @title 通用后台管理系统
 // @version 1.0
 // @description 后台管理系统API接口文档
@@ -31,6 +42,10 @@ import (
 // @in header
 // @name Authorization
 func main() {
+	err := initSwagger()
+	if err != nil {
+		return
+	}
 	// 加载日志
 	log := log.Log()
 	gin.SetMode(config.Config.Server.Model)

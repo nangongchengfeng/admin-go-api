@@ -40,3 +40,16 @@ func CreateSysMenu(c *gin.Context) {
 func QuerySysMenuVoList(c *gin.Context) {
 	service.SysMenuService().QuerySysMenuVoList(c)
 }
+
+// UpdateSysMenu 更新菜单
+// @Summary UpdateSysMenu 更新菜单
+// @Description 更新菜单
+// @Tags 菜单管理
+// @Produce json
+// @Param sysDept body entity.SysMenu true "部门信息"
+// @Success 200 {object} entity.SysMenu
+// @router /api/menu/update [put]
+func UpdateSysMenu(c *gin.Context) {
+	_ = c.ShouldBindJSON(&sysMenu)
+	service.SysMenuService().UpdateSysMenu(c, sysMenu)
+}
