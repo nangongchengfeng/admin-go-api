@@ -18,8 +18,15 @@ import (
 
 type ISysMenuService interface {
 	CreateSysMenu(c *gin.Context, sysMenu entity.SysMenu)
+	QuerySysMenuVoList(c *gin.Context)
 }
 type SysMenuServiceImpl struct {
+}
+
+// QuerySysMenuVoList 查询菜单
+func (s SysMenuServiceImpl) QuerySysMenuVoList(c *gin.Context) {
+	sysMenuVo := dao.QuerySysMenuVoList()
+	result.Success(c, sysMenuVo)
 }
 
 // CreateSysMenu 创建菜单

@@ -30,3 +30,9 @@ type SysMenu struct {
 func (SysMenu) TableName() string {
 	return "sys_menu"
 }
+
+type SysMenuVo struct {
+	Id       uint   `json:"id"`
+	ParentId uint   `json:"parentId"`
+	Label    string `json:"label"`
+}

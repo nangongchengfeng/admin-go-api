@@ -29,3 +29,14 @@ func CreateSysMenu(c *gin.Context) {
 	_ = c.ShouldBindJSON(&sysMenu)
 	service.SysMenuService().CreateSysMenu(c, sysMenu)
 }
+
+// QuerySysMenuVoList 查询菜单列表
+// @Summary QuerySysMenuVoList 查询菜单列表
+// @Description 查询菜单列表
+// @Tags 菜单管理
+// @Produce json
+// @Success 200 {object} entity.SysMenuVo
+// @router /api/menu/vo/list [get]
+func QuerySysMenuVoList(c *gin.Context) {
+	service.SysMenuService().QuerySysMenuVoList(c)
+}

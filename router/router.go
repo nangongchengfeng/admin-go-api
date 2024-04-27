@@ -63,4 +63,5 @@ func register(router *gin.Engine) {
 
 	// 菜单接口
 	router.POST("/api/menu/add", controller.CreateSysMenu)
+	router.GET("/api/menu/vo/list", controller.QuerySysMenuVoList)
 }
