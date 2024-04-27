@@ -79,5 +79,10 @@ func CreateSysDept(sysDept entity.SysDept) bool {
 		Db.Create(&sysDept) // 创建部门
 		return true
 	}
-	return false
+}
+
+// GetSysDeptById 根据部门ID获取部门信息
+func GetSysDeptById(Id int) (sysDept entity.SysDept) {
+	Db.First(&sysDept, Id)
+	return sysDept
 }

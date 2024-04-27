@@ -3,6 +3,7 @@ package controller
 import (
 	"admin-go-api/api/entity"
 	"admin-go-api/api/service"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -40,4 +41,16 @@ func GetSysDeptList(c *gin.Context) {
 func CreateSysDept(c *gin.Context) {
 	_ = c.BindJSON(&sysDept)
 	service.SysDeptService().CreateSysDept(c, sysDept)
+}
+
+// GetSysDeptById 根据id获取部门信息
+// @Summary 根据id获取部门信息
+// @Tags 部门管理
+// @Produce json
+// @Param id query int true "部门id"
+// @Success 200 {object} result.Result
+// @router /api/dept/info [get]
+func GetSysDeptById(c *gin.Context) {
+	Id, _ := strconv.Atoi(c.Query("id"))
+	service.SysDeptService().GetSysDeptById(c, Id)
 }

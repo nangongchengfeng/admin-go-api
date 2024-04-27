@@ -19,9 +19,16 @@ import (
 type ISysDeptService interface {
 	GetSysDeptList(c *gin.Context, DeptName string, DeptStatus string)
 	CreateSysDept(c *gin.Context, sysDept entity.SysDept)
+	GetSysDeptById(c *gin.Context, id int)
 }
 
 type SysDeptServiceImpl struct{}
+
+// GetSysDeptById 获取部门详情
+func (s SysDeptServiceImpl) GetSysDeptById(c *gin.Context, id int) {
+	dto := dao.GetSysDeptById(id)
+	result.Success(c, dto)
+}
 
 // CreateSysDept 创建部门
 func (s SysDeptServiceImpl) CreateSysDept(c *gin.Context, sysDept entity.SysDept) {
