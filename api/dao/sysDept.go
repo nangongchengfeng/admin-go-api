@@ -123,3 +123,9 @@ func DeleteSysDeptById(dto entity.SysDeptIdDto) bool {
 	Db.Delete(&entity.SysDept{}, dto.Id)
 	return true
 }
+
+// QuerySysDeptVoList 部门下拉列表
+func QuerySysDeptVoList() (sysDeptVo []entity.SysDeptVo) {
+	Db.Table("sys_dept").Select("id,parent_id,dept_name as label").Scan(&sysDeptVo)
+	return sysDeptVo
+}
