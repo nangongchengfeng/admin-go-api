@@ -21,8 +21,13 @@ type ISysMenuService interface {
 	QuerySysMenuVoList(c *gin.Context)
 	UpdateSysMenu(c *gin.Context, sysMenu entity.SysMenu)
 	DeleteSysMenu(c *gin.Context, dto entity.SysMenuIdDto)
+	GetSysMenuList(c *gin.Context, MenuName string, MenuStatus string)
 }
 type SysMenuServiceImpl struct {
+}
+
+func (s SysMenuServiceImpl) GetSysMenuList(c *gin.Context, MenuName string, MenuStatus string) {
+	result.Success(c, dao.GetSysMenuList(MenuName, MenuStatus))
 }
 
 // DeleteSysMenu 删除菜单

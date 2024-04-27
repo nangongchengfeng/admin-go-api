@@ -67,3 +67,18 @@ func DeleteSysMenu(c *gin.Context) {
 	_ = c.ShouldBindJSON(&dto)
 	service.SysMenuService().DeleteSysMenu(c, dto)
 }
+
+// GetSysMenuList 获取菜单列表
+// @Summary GetSysMenuList 获取菜单列表
+// @Description 获取菜单列表
+// @Tags 菜单管理
+// @Produce json
+// @Param menuName query string false "菜单名称"
+// @Param menuStatus query string false "菜单状态"
+// @Success 200 {object} entity.SysMenu
+// @router /api/menu/list [get]
+func GetSysMenuList(c *gin.Context) {
+	menuName := c.Query("menuName")
+	menuStatus := c.Query("menuStatus")
+	service.SysMenuService().GetSysMenuList(c, menuName, menuStatus)
+}

@@ -139,3 +139,30 @@ func DeleteSysMenu(dto entity.SysMenuIdDto) bool {
 	Db.Delete(&entity.SysMenu{}, dto.Id)
 	return true
 }
+
+// GetSysMenuList 获取系统菜单列表。
+// 根据提供的菜单名称和状态过滤菜单项，并返回符合条件的菜单列表。
+//
+// 参数:
+//
+//	MenuName string - 菜单名称，留空则不过滤菜单名称。
+//	MenuStatus string - 菜单状态，留空则不过滤菜单状态。
+//
+// 返回值:
+//
+//	[]*entity.SysMenu - 符合条件的菜单实体列表。
+func GetSysMenuList(MenuName string, MenuStatus string) (sysMenu []*entity.SysMenu) {
+	// 使用当前数据库连接，查询sys_menu表，按sort字段排序
+	curDb := Db.Table("sys_menu").Order("sort")
+	// 如果提供了菜单名称，则添加名称过滤条件
+	if MenuName != "" {
+		curDb.Where("menu_name = ?", MenuName)
+	}
+	// 如果提供了菜单状态，则添加状态过滤条件
+	if MenuStatus != "" {
+		curDb.Where("menu_status = ?", MenuStatus)
+	}
+	// 执行查询，并将结果填充到sysMenu变量中
+	curDb.Find(&sysMenu)
+	return
+}
