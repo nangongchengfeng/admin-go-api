@@ -109,3 +109,22 @@ type ResetSysAdminPasswordDto struct {
 	Id       uint   // ID
 	Password string //密码
 }
+
+// SysAdminVo 用户列表的vo视图
+type SysAdminVo struct {
+	ID         uint       `json:"id"`         // ID
+	Username   string     `json:"username"`   // 用户名
+	Nickname   string     `json:"nickname"`   // 昵称
+	Status     int        `json:"status"`     // 状态：1->启用,2->禁用
+	PostId     int        `json:"postId"`     // 岗位id
+	DeptId     int        `json:"deptId"`     // 部门id
+	RoleId     uint       `json:"roleId" `    // 角色id
+	PostName   string     `json:"postName"`   // 岗位名称
+	DeptName   string     `json:"deptName"`   // 部门名称
+	RoleName   string     `json:"roleName"`   // 角色名称
+	Icon       string     `json:"icon"`       // 头像
+	Email      string     `json:"email"`      // 邮箱
+	Phone      string     `json:"phone"`      // 电话
+	Note       string     `json:"note"`       // 备注
+	CreateTime util.HTime `json:"createTime"` // 创建时间
+}

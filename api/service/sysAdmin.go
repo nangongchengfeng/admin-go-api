@@ -6,6 +6,7 @@ import (
 	"admin-go-api/common/result"
 	"admin-go-api/common/util"
 	"admin-go-api/pkg/jwt"
+	"fmt"
 
 	"github.com/go-playground/validator/v10"
 
@@ -29,10 +30,26 @@ type ISysAdminService interface {
 	DeleteSysAdminById(c *gin.Context, dto entity.SysAdminIdDto)
 	UpdateSysAdminStatus(c *gin.Context, dto entity.UpdateSysAdminStatusDto)
 	ResetSysAdminPassword(c *gin.Context, dto entity.ResetSysAdminPasswordDto)
+	GetSysAdminList(c *gin.Context, PageNum, PageSize int, UserName, Status, BeginTime, EndTime string)
 }
 
 // SysAdminServiceImpl 实现ISysAdminService接口
 type SysAdminServiceImpl struct{}
+
+// GetSysAdminList 获取用户列表
+func (s SysAdminServiceImpl) GetSysAdminList(c *gin.Context, PageNum, PageSize int, UserName, Status, BeginTime, EndTime string) {
+	if PageSize < 1 {
+		PageSize = 10
+	}
+	if PageNum < 1 {
+		PageNum = 1
+	}
+	fmt.Println(PageSize, PageNum, UserName, Status, BeginTime, EndTime)
+	sysAdmin, count := dao.GetSysAdminList(PageSize, PageNum, UserName, Status, BeginTime, EndTime)
+	result.Success(c, map[string]interface{}{"total": count, "pageSize": PageSize,
+		"pageNum": PageNum, "list": sysAdmin})
+	return
+}
 
 // ResetSysAdminPassword 重置密码
 func (s SysAdminServiceImpl) ResetSysAdminPassword(c *gin.Context, dto entity.ResetSysAdminPasswordDto) {
