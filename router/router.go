@@ -43,7 +43,7 @@ func register(router *gin.Engine) {
 	router.GET("/api/captcha", controller.Captcha)
 	router.POST("/api/login", controller.Login)
 	// JWT 鉴权接口
-	jwt := router.Group("/api", middleware.AuthMiddleware())
+	jwt := router.Group("/api", middleware.AuthMiddleware(), middleware.LogMiddleware())
 	{
 		// 用户接口
 
