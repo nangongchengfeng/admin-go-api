@@ -28,10 +28,17 @@ type ISysAdminService interface {
 	UpdateSysAdmin(c *gin.Context, dto entity.UpdateSysAdminDto)
 	DeleteSysAdminById(c *gin.Context, dto entity.SysAdminIdDto)
 	UpdateSysAdminStatus(c *gin.Context, dto entity.UpdateSysAdminStatusDto)
+	ResetSysAdminPassword(c *gin.Context, dto entity.ResetSysAdminPasswordDto)
 }
 
 // SysAdminServiceImpl 实现ISysAdminService接口
 type SysAdminServiceImpl struct{}
+
+// ResetSysAdminPassword 重置密码
+func (s SysAdminServiceImpl) ResetSysAdminPassword(c *gin.Context, dto entity.ResetSysAdminPasswordDto) {
+	dao.ResetSysAdminPassword(dto)
+	result.Success(c, true)
+}
 
 // UpdateSysAdminStatus 更新用户状态
 func (s SysAdminServiceImpl) UpdateSysAdminStatus(c *gin.Context, dto entity.UpdateSysAdminStatusDto) {

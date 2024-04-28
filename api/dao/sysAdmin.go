@@ -160,3 +160,11 @@ func UpdateSysAdminStatus(dto entity.UpdateSysAdminStatusDto) {
 	sysAdmin.Status = dto.Status
 	Db.Save(&sysAdmin)
 }
+
+// ResetSysAdminPassword 重置用户密码
+func ResetSysAdminPassword(dto entity.ResetSysAdminPasswordDto) {
+	var sysAdmin entity.SysAdmin
+	Db.First(&sysAdmin, dto.Id)
+	sysAdmin.Password = util.EncryptionMd5(dto.Password)
+	Db.Save(&sysAdmin)
+}

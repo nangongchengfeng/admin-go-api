@@ -98,3 +98,17 @@ func UpdateSysAdminStatus(c *gin.Context) {
 	_ = c.BindJSON(&dto)
 	service.SysAdminService().UpdateSysAdminStatus(c, dto)
 }
+
+// ResetSysAdminPassword 重置用户密码
+// @Summary 重置用户密码
+// @Tags 用户管理
+// @Produce json
+// @Description 重置用户密码
+// @Param data body entity.ResetSysAdminPasswordDto true "data"
+// @Success 200 {object} result.Result
+// @router /api/admin/updatePassword [put]
+func ResetSysAdminPassword(c *gin.Context) {
+	var dto entity.ResetSysAdminPasswordDto
+	_ = c.BindJSON(&dto)
+	service.SysAdminService().ResetSysAdminPassword(c, dto)
+}
