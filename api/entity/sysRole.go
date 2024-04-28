@@ -40,3 +40,8 @@ type UpdateSysRoleDto struct {
 	Status      int    // 状态：1->启用,2->禁用
 	Description string
 }
+
+// SysRoleIdDto 删除参数
+type SysRoleIdDto struct {
+	Id uint `json:"id"`
+}

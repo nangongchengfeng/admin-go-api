@@ -57,3 +57,17 @@ func UpdateSysRole(c *gin.Context) {
 	_ = c.ShouldBind(&dto)
 	service.SysRoleService().UpdateSysRole(c, dto)
 }
+
+// DeleteSysRoleById 删除角色
+// @Summary 删除角色
+// @Description: 删除角色
+// @Tags 角色管理
+// @Produce json
+// @Param data body entity.SysRoleIdDto true "data"
+// @Success 200 {object} result.Result
+// @router /api/role/delete [DELETE]
+func DeleteSysRoleById(c *gin.Context) {
+	var dto entity.SysRoleIdDto
+	_ = c.ShouldBind(&dto)
+	service.SysRoleService().DeleteSysRoleById(c, dto)
+}

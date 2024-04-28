@@ -81,3 +81,16 @@ func UpdateSysRole(dto entity.UpdateSysRoleDto) (sysRole entity.SysRole) {
 	Db.Save(&sysRole)
 	return sysRole
 }
+
+// DeleteSysRoleById 根据角色id删除角色
+// 参数:
+// dto - 包含要删除的角色id的数据传输对象 (SysRoleIdDto)
+// 说明:
+// 该函数首先从"sys_role"表中删除指定id的角色，然后从"sys_role_menu"表中删除所有与该角色id相关的角色菜单关联。
+func DeleteSysRoleById(dto entity.SysRoleIdDto) {
+	// 从"sys_role"表中删除指定id的角色
+	Db.Table("sys_role").Delete(&entity.SysRole{}, dto.Id)
+
+	// 从"sys_role_menu"表中删除所有与该角色id相关的角色菜单关联
+	Db.Table("sys_role_menu").Where("role_id = ?", dto.Id).Delete(&entity.SysRoleMenu{})
+}
