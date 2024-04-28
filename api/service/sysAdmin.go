@@ -24,10 +24,16 @@ import (
 type ISysAdminService interface {
 	Login(c *gin.Context, dto entity.LoginDto)
 	CreateSysAdmin(c *gin.Context, dto entity.AddSysAdminDto)
+	GetSysAdminInfo(c *gin.Context, id int)
 }
 
 // SysAdminServiceImpl 实现ISysAdminService接口
 type SysAdminServiceImpl struct{}
+
+// GetSysAdminInfo 根据ID获取用户信息
+func (s SysAdminServiceImpl) GetSysAdminInfo(c *gin.Context, id int) {
+	result.Success(c, dao.GetSysAdminInfo(id))
+}
 
 // CreateSysAdmin 创建一个系统管理员用户
 // 参数:

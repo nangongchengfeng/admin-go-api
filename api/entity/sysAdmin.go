@@ -64,3 +64,17 @@ type AddSysAdminDto struct {
 	Note     string // 备注
 	Status   int    `validate:"required"` // 状态：1->启用,2->禁用
 }
+
+// SysAdminInfo 详情视图
+type SysAdminInfo struct {
+	ID       uint   `json:"id"`       // ID
+	Username string `json:"username"` // 用户名
+	Nickname string `json:"nickname"` // 昵称
+	Status   int    `json:"status"`   // 状态：1->启用,2->禁用
+	PostId   int    `json:"postId"`   // 岗位id
+	DeptId   int    `json:"deptId"`   // 部门id
+	RoleId   uint   `json:"roleId" `  // 角色id
+	Email    string `json:"email"`    // 邮箱
+	Phone    string `json:"phone"`    // 手机号
+	Note     string `json:"note"`     // 备注
+}

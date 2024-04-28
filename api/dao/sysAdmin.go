@@ -77,3 +77,19 @@ func CreateSysAdmin(dto entity.AddSysAdminDto) bool {
 	}
 	return false
 }
+
+// GetSysAdminInfo 根据提供的用户ID，查询并返回该用户的详细信息。
+// 参数：
+// Id - 用户的唯一标识符。
+// 返回值：
+// sysAdminInfo - 查询到的用户详情，包括用户基本信息和角色信息。
+func GetSysAdminInfo(Id int) (sysAdminInfo entity.SysAdminInfo) {
+	// 使用ORM查询语言，从数据库中选取特定ID的用户详情。
+	// 通过LEFT JOIN关联了sys_admin_role和sys_role表，以获取用户的角色信息。
+	Db.Table("sys_admin").
+		Select("sys_admin.*, sys_admin_role.role_id").
+		Joins("LEFT JOIN sys_admin_role ON sys_admin.id =sys_admin_role.admin_id").
+		Joins("LEFT JOIN sys_role ON sys_admin_role.role_id = sys_role.id").
+		First(&sysAdminInfo, Id)
+	return sysAdminInfo
+}
