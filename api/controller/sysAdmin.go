@@ -126,6 +126,7 @@ func ResetSysAdminPassword(c *gin.Context) {
 // @Param endTime query string false "结束时间"
 // @Success 200 {object} result.Result
 // @router /api/admin/list [get]
+// @Security ApiKeyAuth
 func GetSysAdminList(c *gin.Context) {
 	PageNum, _ := strconv.Atoi(c.Query("pageNum"))
 	PageSize, _ := strconv.Atoi(c.Query("pageSize"))
