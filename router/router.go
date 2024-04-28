@@ -39,55 +39,60 @@ func register(router *gin.Engine) {
 	// todo 后续接口url
 	//Swag
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	// 用户接口
+
 	router.GET("/api/captcha", controller.Captcha)
-	router.POST("/api/upload", controller.Upload)
-
 	router.POST("/api/login", controller.Login)
-	router.POST("/api/admin/add", controller.CreateSysAdmin)
-	router.GET("/api/admin/info", controller.GetSysAdminInfo)
-	router.PUT("/api/admin/update", controller.UpdateSysAdmin)
-	router.DELETE("/api/admin/delete", controller.DeleteSysAdminById)
-	router.PUT("/api/admin/updateStatus", controller.UpdateSysAdminStatus)
-	router.PUT("/api/admin/updatePassword", controller.ResetSysAdminPassword)
-	router.GET("/api/admin/list", controller.GetSysAdminList)
-	router.PUT("/api/admin/updatePersonal", controller.UpdatePersonal)
-	router.PUT("/api/admin/updatePersonalPassword", controller.UpdatePersonalPassword)
+	// JWT 鉴权接口
+	jwt := router.Group("/api", middleware.AuthMiddleware())
+	{
+		// 用户接口
 
-	// 岗位接口
-	router.POST("/api/post/add", controller.CreateSysPost)
-	router.GET("/api/post/list", controller.GetSysPostList)
-	router.GET("/api/post/info", controller.GetSysPostById)
-	router.PUT("/api/post/update", controller.UpdateSysPost)
-	router.DELETE("/api/post/delete", controller.DeleteSysPostById)
-	router.DELETE("/api/post/batch/delete", controller.BatchDeleteSysPost)
-	router.PUT("/api/post/updateStatus", controller.UpdateSysPostStatus)
-	router.GET("/api/post/vo/list", controller.QuerySysPostVoList)
+		jwt.POST("/upload", controller.Upload)
 
-	// 部门接口
-	router.GET("/api/dept/list", controller.GetSysDeptList)
-	router.POST("/api/dept/add", controller.CreateSysDept)
-	router.GET("/api/dept/info", controller.GetSysDeptById)
-	router.PUT("/api/dept/update", controller.UpdateSysDept)
-	router.DELETE("/api/dept/delete", controller.DeleteSysDeptById)
-	router.GET("/api/dept/vo/list", controller.QuerySysDeptVoList)
+		jwt.POST("/admin/add", controller.CreateSysAdmin)
+		jwt.GET("/admin/info", controller.GetSysAdminInfo)
+		jwt.PUT("/admin/update", controller.UpdateSysAdmin)
+		jwt.DELETE("/admin/delete", controller.DeleteSysAdminById)
+		jwt.PUT("/admin/updateStatus", controller.UpdateSysAdminStatus)
+		jwt.PUT("/admin/updatePassword", controller.ResetSysAdminPassword)
+		jwt.GET("/admin/list", controller.GetSysAdminList)
+		jwt.PUT("/admin/updatePersonal", controller.UpdatePersonal)
+		jwt.PUT("/admin/updatePersonalPassword", controller.UpdatePersonalPassword)
 
-	// 菜单接口
-	router.POST("/api/menu/add", controller.CreateSysMenu)
-	router.GET("/api/menu/vo/list", controller.QuerySysMenuVoList)
-	router.PUT("/api/menu/update", controller.UpdateSysMenu)
-	router.DELETE("/api/menu/delete", controller.DeleteSysMenu)
-	router.GET("/api/menu/list", controller.GetSysMenuList)
+		// 岗位接口
+		jwt.POST("/post/add", controller.CreateSysPost)
+		jwt.GET("/post/list", controller.GetSysPostList)
+		jwt.GET("/post/info", controller.GetSysPostById)
+		jwt.PUT("/post/update", controller.UpdateSysPost)
+		jwt.DELETE("/post/delete", controller.DeleteSysPostById)
+		jwt.DELETE("/post/batch/delete", controller.BatchDeleteSysPost)
+		jwt.PUT("/post/updateStatus", controller.UpdateSysPostStatus)
+		jwt.GET("/post/vo/list", controller.QuerySysPostVoList)
 
-	// 角色管理
-	router.POST("/api/role/add", controller.CreateSysRole)
-	router.GET("/api/role/info", controller.GetSysRoleById)
-	router.PUT("/api/role/update", controller.UpdateSysRole)
-	router.DELETE("/api/role/delete", controller.DeleteSysRoleById)
-	router.PUT("/api/role/updateStatus", controller.UpdateSysRoleStatus)
-	router.GET("/api/role/list", controller.GetSysRoleList)
-	router.GET("/api/role/vo/list", controller.QuerySysRoleVoList)
-	router.GET("/api/role/vo/idList", controller.QueryRoleMenuIdList)
-	router.PUT("/api/role/assignPermissions", controller.AssignPermissions)
+		// 部门接口
+		jwt.GET("/dept/list", controller.GetSysDeptList)
+		jwt.POST("/dept/add", controller.CreateSysDept)
+		jwt.GET("/dept/info", controller.GetSysDeptById)
+		jwt.PUT("/dept/update", controller.UpdateSysDept)
+		jwt.DELETE("/dept/delete", controller.DeleteSysDeptById)
+		jwt.GET("/dept/vo/list", controller.QuerySysDeptVoList)
 
+		// 菜单接口
+		jwt.POST("/menu/add", controller.CreateSysMenu)
+		jwt.GET("/menu/vo/list", controller.QuerySysMenuVoList)
+		jwt.PUT("/menu/update", controller.UpdateSysMenu)
+		jwt.DELETE("/menu/delete", controller.DeleteSysMenu)
+		jwt.GET("/menu/list", controller.GetSysMenuList)
+
+		// 角色管理
+		jwt.POST("/role/add", controller.CreateSysRole)
+		jwt.GET("/role/info", controller.GetSysRoleById)
+		jwt.PUT("/role/update", controller.UpdateSysRole)
+		jwt.DELETE("/role/delete", controller.DeleteSysRoleById)
+		jwt.PUT("/role/updateStatus", controller.UpdateSysRoleStatus)
+		jwt.GET("/role/list", controller.GetSysRoleList)
+		jwt.GET("/role/vo/list", controller.QuerySysRoleVoList)
+		jwt.GET("/role/vo/idList", controller.QueryRoleMenuIdList)
+		jwt.PUT("/role/assignPermissions", controller.AssignPermissions)
+	}
 }
