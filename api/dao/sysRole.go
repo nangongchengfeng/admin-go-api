@@ -94,3 +94,24 @@ func DeleteSysRoleById(dto entity.SysRoleIdDto) {
 	// 从"sys_role_menu"表中删除所有与该角色id相关的角色菜单关联
 	Db.Table("sys_role_menu").Where("role_id = ?", dto.Id).Delete(&entity.SysRoleMenu{})
 }
+
+// UpdateSysRoleStatus 更新角色状态。
+// 该函数接收一个实体UpdateSysRoleStatusDto，其中包含需要更新的角色ID和新的状态，
+func UpdateSysRoleStatus(dto entity.UpdateSysRoleStatusDto) bool {
+	var sysRole entity.SysRole // 声明一个SysRole类型的变量，用于存储从数据库中查找到的角色
+
+	// 根据dto中的Id查找并加载第一个匹配的SysRole角色
+	Db.First(&sysRole, dto.Id)
+
+	// 更新sysRole实体的状态为dto中的状态
+	sysRole.Status = dto.Status
+
+	// 使用事务保存更新后的sysRole实体
+	tx := Db.Save(&sysRole)
+
+	// 检查是否有行受到影響，若有则返回true，表示更新成功
+	if tx.RowsAffected > 0 {
+		return true
+	}
+	return false // 若没有行受到影響，则返回false，表示更新失败或未找到指定角色
+}

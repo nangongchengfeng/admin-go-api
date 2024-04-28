@@ -71,3 +71,17 @@ func DeleteSysRoleById(c *gin.Context) {
 	_ = c.ShouldBind(&dto)
 	service.SysRoleService().DeleteSysRoleById(c, dto)
 }
+
+// UpdateSysRoleStatus 修改角色状态
+// @Summary 修改角色状态
+// @Description: 修改角色状态
+// @Tags 角色管理
+// @Produce json
+// @Param data body entity.UpdateSysRoleStatusDto true "data"
+// @Success 200 {object} result.Result
+// @router /api/role/updateStatus [PUT]
+func UpdateSysRoleStatus(c *gin.Context) {
+	var dto entity.UpdateSysRoleStatusDto
+	_ = c.ShouldBind(&dto)
+	service.SysRoleService().UpdateSysRoleStatus(c, dto)
+}
