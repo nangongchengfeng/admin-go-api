@@ -94,5 +94,8 @@ func register(router *gin.Engine) {
 		jwt.GET("/role/vo/list", controller.QuerySysRoleVoList)
 		jwt.GET("/role/vo/idList", controller.QueryRoleMenuIdList)
 		jwt.PUT("/role/assignPermissions", controller.AssignPermissions)
+
+		// 日志管理
+		jwt.GET("/sysLoginInfo/list", controller.GetSysLoginInfoList)
 	}
 }

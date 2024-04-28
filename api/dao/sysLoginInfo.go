@@ -29,3 +29,20 @@ func CreateSysLoginInfo(username, ipAddress, loginLocation, browser, os, message
 	}
 	Db.Save(&sysLoginInfo)
 }
+
+// GetSysLoginInfoList 分页获取登录日志列表
+func GetSysLoginInfoList(Username, LoginStatus, BeginTime, EndTime string, PageSize, PageNum int) (sysLoginInfo []entity.SysLoginInfo, count int64) {
+	curDb := Db.Table("sys_login_info")
+	if Username != "" {
+		curDb = curDb.Where("username = ?", Username)
+	}
+	if BeginTime != "" && EndTime != "" {
+		curDb = curDb.Where("`login_time` BETWEEN ? AND ?", BeginTime, EndTime)
+	}
+	if LoginStatus != "" {
+		curDb = curDb.Where("login_status = ?", LoginStatus)
+	}
+	curDb.Count(&count)
+	curDb.Limit(PageSize).Offset((PageNum - 1) * PageSize).Order("login_time desc").Find(&sysLoginInfo)
+	return sysLoginInfo, count
+}
