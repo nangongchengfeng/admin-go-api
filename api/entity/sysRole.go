@@ -57,3 +57,8 @@ type SysRoleVo struct {
 	ID       int    `json:"id"`
 	RoleName string `json:"roleName"`
 }
+
+// IdVo 当前角色的菜单权限id
+type IdVo struct {
+	Id int `json:"id"` // ID
+}

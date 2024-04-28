@@ -24,9 +24,20 @@ type ISysRoleService interface {
 	UpdateSysRoleStatus(c *gin.Context, dto entity.UpdateSysRoleStatusDto)
 	GetSysRoleList(c *gin.Context, PageNum, PageSize int, RoleName, RoleStatus, BeginTime, EndTime string)
 	QuerySysRoleVoList(c *gin.Context)
+	QueryRoleMenuIdList(c *gin.Context, id int)
 }
 
 type SysRoleServiceImpl struct {
+}
+
+// QueryRoleMenuIdList 获取角色菜单列表
+func (s SysRoleServiceImpl) QueryRoleMenuIdList(c *gin.Context, Id int) {
+	voList := dao.QueryRoleMenuIdList(Id)
+	var idList = make([]int, 0)
+	for _, vo := range voList {
+		idList = append(idList, vo.Id)
+	}
+	result.Success(c, idList)
 }
 
 // QuerySysRoleVoList 获取角色列表

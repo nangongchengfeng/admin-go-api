@@ -155,3 +155,22 @@ func QuerySysRoleVoList() (sysRoleVo []entity.SysRoleVo) {
 	Db.Table("sys_role").Select("id,role_name").Scan(&sysRoleVo)
 	return sysRoleVo
 }
+
+// QueryRoleMenuIdList 根据角色Id查询菜单权限
+// 参数:
+// Id int - 角色的ID
+// 返回值:
+// idVo []entity.IdVo - 菜单ID的集合
+func QueryRoleMenuIdList(Id int) (idVo []entity.IdVo) {
+	const menuType int = 3 // 定义菜单类型常量
+
+	// 查询具有指定菜单类型且与给定角色ID相关的菜单ID
+	Db.Table("sys_menu sm").
+		Select("sm.id").
+		Joins("LEFT JOIN sys_role_menu srm ON srm.menu_id = sm.id").
+		Joins("LEFT JOIN sys_role sr ON sr.id = srm.role_id ").
+		Where("sm.menu_type = ?", menuType).
+		Where("sr.id = ?", Id).
+		Scan(&idVo)
+	return idVo
+}
