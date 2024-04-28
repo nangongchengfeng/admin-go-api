@@ -26,6 +26,7 @@ var sysRole entity.AddSysRoleDto
 // @Param data body entity.AddSysRoleDto true "data"
 // @Success 200 {object} result.Result
 // @router /api/role/add [post]
+// @Security ApiKeyAuth
 func CreateSysRole(c *gin.Context) {
 	_ = c.ShouldBind(&sysRole)
 	service.SysRoleService().CreateSysRole(c, sysRole)
@@ -39,6 +40,7 @@ func CreateSysRole(c *gin.Context) {
 // @Param id query int true "id"
 // @Success 200 {object} result.Result
 // @router /api/role/info [get]
+// @Security ApiKeyAuth
 func GetSysRoleById(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Query("id"))
 	service.SysRoleService().GetSysRoleById(c, id)
@@ -52,6 +54,7 @@ func GetSysRoleById(c *gin.Context) {
 // @Param data body entity.UpdateSysRoleDto true "data"
 // @Success 200 {object} result.Result
 // @router /api/role/update [PUT]
+// @Security ApiKeyAuth
 func UpdateSysRole(c *gin.Context) {
 	var dto entity.UpdateSysRoleDto
 	_ = c.ShouldBind(&dto)
@@ -66,6 +69,7 @@ func UpdateSysRole(c *gin.Context) {
 // @Param data body entity.SysRoleIdDto true "data"
 // @Success 200 {object} result.Result
 // @router /api/role/delete [DELETE]
+// @Security ApiKeyAuth
 func DeleteSysRoleById(c *gin.Context) {
 	var dto entity.SysRoleIdDto
 	_ = c.ShouldBind(&dto)
@@ -80,6 +84,7 @@ func DeleteSysRoleById(c *gin.Context) {
 // @Param data body entity.UpdateSysRoleStatusDto true "data"
 // @Success 200 {object} result.Result
 // @router /api/role/updateStatus [PUT]
+// @Security ApiKeyAuth
 func UpdateSysRoleStatus(c *gin.Context) {
 	var dto entity.UpdateSysRoleStatusDto
 	_ = c.ShouldBind(&dto)
@@ -99,6 +104,7 @@ func UpdateSysRoleStatus(c *gin.Context) {
 // @Param EndTime query string false "EndTime"
 // @Success 200 {object} result.Result
 // @router /api/role/list [get]
+// @Security ApiKeyAuth
 func GetSysRoleList(c *gin.Context) {
 	PageSize, _ := strconv.Atoi(c.Query("PageSize"))
 	PageNum, _ := strconv.Atoi(c.Query("PageNum"))
@@ -116,6 +122,7 @@ func GetSysRoleList(c *gin.Context) {
 // @Produce json
 // @Success 200 {object} result.Result
 // @router /api/role/vo/list [get]
+// @Security ApiKeyAuth
 func QuerySysRoleVoList(c *gin.Context) {
 	service.SysRoleService().QuerySysRoleVoList(c)
 }
@@ -128,6 +135,7 @@ func QuerySysRoleVoList(c *gin.Context) {
 // @Param Id query int true "Id"
 // @Success 200 {object} result.Result
 // @router /api/role/vo/idList [get]
+// @Security ApiKeyAuth
 func QueryRoleMenuIdList(c *gin.Context) {
 	Id, _ := strconv.Atoi(c.Query("Id"))
 	service.SysRoleService().QueryRoleMenuIdList(c, Id)
@@ -141,6 +149,7 @@ func QueryRoleMenuIdList(c *gin.Context) {
 // @Param data body entity.RoleMenu true "data"
 // @Success 200 {object} result.Result
 // @router /api/role/assignPermissions [PUT]
+// @Security ApiKeyAuth
 func AssignPermissions(c *gin.Context) {
 	var RoleMenu entity.RoleMenu
 	_ = c.ShouldBind(&RoleMenu)
