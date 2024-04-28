@@ -23,10 +23,39 @@ import (
 // ISysAdminService 定义接口
 type ISysAdminService interface {
 	Login(c *gin.Context, dto entity.LoginDto)
+	CreateSysAdmin(c *gin.Context, dto entity.AddSysAdminDto)
 }
 
 // SysAdminServiceImpl 实现ISysAdminService接口
 type SysAdminServiceImpl struct{}
+
+// CreateSysAdmin 创建一个系统管理员用户
+// 参数:
+// - c *gin.Context: Gin框架的上下文对象，用于处理HTTP请求和响应
+// - dto entity.AddSysAdminDto: 添加管理员的数据传输对象，包含新管理员的信息
+// 返回值: 无
+func (s SysAdminServiceImpl) CreateSysAdmin(c *gin.Context, dto entity.AddSysAdminDto) {
+	// 验证传入的DTO数据是否符合规范
+	err := validator.New().Struct(dto)
+	if err != nil {
+		// 如果验证失败，返回缺少参数的错误信息
+		result.Failed(c, int(result.ApiCode.MissingNewAdminParameter),
+			result.ApiCode.GetMessage(result.ApiCode.MissingNewAdminParameter))
+		return
+	}
+
+	// 尝试在数据库中创建系统管理员
+	isCreate := dao.CreateSysAdmin(dto)
+	if !isCreate {
+		// 如果创建失败（如用户名已存在），返回相应的错误信息
+		result.Failed(c, int(result.ApiCode.USERNAMEALREADYEXISTS),
+			result.ApiCode.GetMessage(result.ApiCode.USERNAMEALREADYEXISTS))
+		return
+	}
+
+	// 创建成功，返回成功的响应
+	result.Success(c, true)
+}
 
 // Login 用户登录
 // Login 登录函数

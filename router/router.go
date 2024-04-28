@@ -42,6 +42,7 @@ func register(router *gin.Engine) {
 	// 用户接口
 	router.GET("/api/captcha", controller.Captcha)
 	router.POST("/api/login", controller.Login)
+	router.POST("/api/admin/add", controller.CreateSysAdmin)
 
 	// 岗位接口
 	router.POST("/api/post/add", controller.CreateSysPost)

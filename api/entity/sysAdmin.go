@@ -50,3 +50,17 @@ type LoginDto struct {
 	Image    string `json:"image" validate:"required,min=4,max=6"` //验证码
 	IdKey    string `json:"idKey" validate:"required"`             //uuid
 }
+
+// AddSysAdminDto 新增参数
+type AddSysAdminDto struct {
+	PostId   int    `validate:"required"` // 岗位id
+	RoleId   uint   `validate:"required"` // 角色id
+	DeptId   int    `validate:"required"` // 部门id
+	Username string `validate:"required"` // 用户名
+	Password string `validate:"required"` // 密码
+	Nickname string `validate:"required"` // 昵称
+	Phone    string `validate:"required"` // 手机号
+	Email    string `validate:"required"` // 邮箱
+	Note     string // 备注
+	Status   int    `validate:"required"` // 状态：1->启用,2->禁用
+}

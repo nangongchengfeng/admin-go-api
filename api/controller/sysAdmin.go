@@ -28,3 +28,17 @@ func Login(c *gin.Context) {
 	_ = c.BindJSON(&dto)
 	service.SysAdminService().Login(c, dto)
 }
+
+// CreateSysAdmin 创建用户
+// @Summary 创建用户
+// @Tags 用户管理
+// @Produce json
+// @Description 创建用户
+// @Param data body entity.AddSysAdminDto true "data"
+// @Success 200 {object} result.Result
+// @router /api/admin/add [post]
+func CreateSysAdmin(c *gin.Context) {
+	var dto entity.AddSysAdminDto
+	_ = c.BindJSON(&dto)
+	service.SysAdminService().CreateSysAdmin(c, dto)
+}
