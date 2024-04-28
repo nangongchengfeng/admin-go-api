@@ -217,3 +217,11 @@ func UpdatePersonal(dto entity.UpdatePersonalDto) (sysAdmin entity.SysAdmin) {
 	Db.Save(&sysAdmin)
 	return sysAdmin
 }
+
+// UpdatePersonalPassword 更新个人密码
+func UpdatePersonalPassword(dto entity.UpdatePersonalPasswordDto) (sysAdmin entity.SysAdmin) {
+	Db.First(&sysAdmin, dto.Id)
+	sysAdmin.Password = dto.NewPassword
+	Db.Save(&sysAdmin)
+	return sysAdmin
+}

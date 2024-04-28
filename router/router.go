@@ -52,6 +52,7 @@ func register(router *gin.Engine) {
 	router.PUT("/api/admin/updatePassword", controller.ResetSysAdminPassword)
 	router.GET("/api/admin/list", controller.GetSysAdminList)
 	router.PUT("/api/admin/updatePersonal", controller.UpdatePersonal)
+	router.PUT("/api/admin/updatePersonalPassword", controller.UpdatePersonalPassword)
 
 	// 岗位接口
 	router.POST("/api/post/add", controller.CreateSysPost)

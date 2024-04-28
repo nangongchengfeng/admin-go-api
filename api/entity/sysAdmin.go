@@ -139,3 +139,11 @@ type UpdatePersonalDto struct {
 	Email    string `validate:"required"` // 邮箱
 	Note     string `validate:"required"` // 备注
 }
+
+// UpdatePersonalPasswordDto 修改个人密码
+type UpdatePersonalPasswordDto struct {
+	Id            uint   //ID
+	Password      string `validate:"required"` // 密码
+	NewPassword   string `validate:"required"` // 新密码
+	ResetPassword string `validate:"required"` // 重复密码
+}

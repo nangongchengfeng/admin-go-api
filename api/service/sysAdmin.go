@@ -32,10 +32,70 @@ type ISysAdminService interface {
 	ResetSysAdminPassword(c *gin.Context, dto entity.ResetSysAdminPasswordDto)
 	GetSysAdminList(c *gin.Context, PageNum, PageSize int, UserName, Status, BeginTime, EndTime string)
 	UpdatePersonal(c *gin.Context, dto entity.UpdatePersonalDto)
+	UpdatePersonalPassword(c *gin.Context, dto entity.UpdatePersonalPasswordDto)
 }
 
 // SysAdminServiceImpl 实现ISysAdminService接口
 type SysAdminServiceImpl struct{}
+
+// UpdatePersonalPassword 更新个人密码
+// 参数:
+// - c *gin.Context: Gin框架的上下文对象，用于处理HTTP请求和响应
+// - dto entity.UpdatePersonalPasswordDto: 包含更新密码所需数据的传输对象
+// 返回值: 无
+func (s SysAdminServiceImpl) UpdatePersonalPassword(c *gin.Context, dto entity.UpdatePersonalPasswordDto) {
+	// 验证更新密码所需的DTO参数
+	err := validator.New().Struct(dto)
+	if err != nil {
+		// 如果参数验证失败，返回错误信息
+		result.Failed(c, int(result.ApiCode.MissingChangePasswordParameter),
+			result.ApiCode.GetMessage(result.ApiCode.MissingChangePasswordParameter))
+		return
+	}
+
+	// 从JWT中获取当前管理员信息
+	sysAdmin, _ := jwt.GetAdmin(c)
+	dto.Id = sysAdmin.ID
+	//dto.Id = 89
+	//var Username string = "admin"
+	// 根据用户名获取管理员信息，以验证当前密码是否正确
+	sysAdminExist := dao.GetSysAdminByUserName(sysAdmin.Username)
+	if sysAdminExist.Password != util.EncryptionMd5(dto.Password) {
+		// 如果当前密码不匹配，返回错误信息
+		result.Failed(c, int(result.ApiCode.PASSWORDNOTTRUE),
+			result.ApiCode.GetMessage(result.ApiCode.PASSWORDNOTTRUE))
+		return
+	}
+
+	// 验证新密码和重置密码是否一致
+	if dto.NewPassword != dto.ResetPassword {
+		// 如果不一致，返回错误信息
+		result.Failed(c, int(result.ApiCode.RESETPASSWORD),
+			result.ApiCode.GetMessage(result.ApiCode.RESETPASSWORD))
+		return
+	}
+
+	// 对新密码进行加密处理
+	dto.NewPassword = util.EncryptionMd5(dto.NewPassword)
+	// 更新密码
+	sysAdminUpdatePwd := dao.UpdatePersonalPassword(dto)
+	// 生成新的JWT token 的结构体
+	var jwtAdmin = entity.JwtAdmin{
+		ID:       sysAdminUpdatePwd.ID,
+		Username: sysAdminUpdatePwd.Username,
+		Nickname: sysAdminUpdatePwd.Nickname,
+		Icon:     sysAdminUpdatePwd.Icon,
+		Email:    sysAdminUpdatePwd.Email,
+		Phone:    sysAdminUpdatePwd.Phone,
+		Note:     sysAdminUpdatePwd.Note,
+	}
+	// 生成新的JWT token
+	tokenString, _ := jwt.GenerateTokenByAdmin(jwtAdmin)
+	// 更新成功，返回成功信息及新的token和管理员信息
+	result.Success(c, map[string]interface{}{"token": tokenString, "sysAdmin": sysAdminUpdatePwd})
+	return
+
+}
 
 // UpdatePersonal 更新个人信息
 func (s SysAdminServiceImpl) UpdatePersonal(c *gin.Context, dto entity.UpdatePersonalDto) {

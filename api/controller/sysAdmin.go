@@ -150,3 +150,17 @@ func UpdatePersonal(c *gin.Context) {
 	_ = c.BindJSON(&dto)
 	service.SysAdminService().UpdatePersonal(c, dto)
 }
+
+// UpdatePersonalPassword 修改密码
+// @Summary 修改密码接口
+// @Tags 用户管理
+// @Produce json
+// @Description 修改密码接口
+// @Param data body entity.UpdatePersonalPasswordDto true "data"
+// @Success 200 {object} result.Result
+// @router /api/admin/updatePersonalPassword [put]
+func UpdatePersonalPassword(c *gin.Context) {
+	var dto entity.UpdatePersonalPasswordDto
+	_ = c.BindJSON(&dto)
+	service.SysAdminService().UpdatePersonalPassword(c, dto)
+}
