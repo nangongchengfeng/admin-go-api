@@ -1,0 +1,40 @@
+package service
+
+import (
+	"admin-go-api/api/dao"
+	"admin-go-api/api/entity"
+	"admin-go-api/common/result"
+
+	"github.com/gin-gonic/gin"
+)
+
+/**
+ * @Author: 南宫乘风
+ * @Description: 角色服务层
+ * @File:  sysRole.go
+ * @Email: 1794748404@qq.com
+ * @Date: 2024-04-28 09:20
+ */
+
+type ISysRoleService interface {
+	CreateSysRole(c *gin.Context, dto entity.AddSysRoleDto)
+}
+
+type SysRoleServiceImpl struct {
+}
+
+// CreateSysRole 创建角色
+func (s SysRoleServiceImpl) CreateSysRole(c *gin.Context, dto entity.AddSysRoleDto) {
+	isCreate := dao.CreateSysRole(dto)
+	if !isCreate {
+		result.Failed(c, int(result.ApiCode.ROLENAMEALREADYEXISTS), result.ApiCode.GetMessage(result.ApiCode.ROLENAMEALREADYEXISTS))
+	} else {
+		result.Success(c, dto)
+	}
+}
+
+var sysRoleService = SysRoleServiceImpl{}
+
+func SysRoleService() ISysRoleService {
+	return &sysRoleService
+}
