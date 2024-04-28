@@ -56,3 +56,17 @@ func GetSysAdminInfo(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Query("id"))
 	service.SysAdminService().GetSysAdminInfo(c, id)
 }
+
+// UpdateSysAdmin 修改用户信息
+// @Summary 修改用户信息
+// @Tags 用户管理
+// @Produce json
+// @Description 修改用户信息
+// @Param data body entity.UpdateSysAdminDto true "data"
+// @Success 200 {object} result.Result
+// @router /api/admin/update [put]
+func UpdateSysAdmin(c *gin.Context) {
+	var dto entity.UpdateSysAdminDto
+	_ = c.BindJSON(&dto)
+	service.SysAdminService().UpdateSysAdmin(c, dto)
+}

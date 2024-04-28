@@ -44,6 +44,7 @@ func register(router *gin.Engine) {
 	router.POST("/api/login", controller.Login)
 	router.POST("/api/admin/add", controller.CreateSysAdmin)
 	router.GET("/api/admin/info", controller.GetSysAdminInfo)
+	router.PUT("/api/admin/update", controller.UpdateSysAdmin)
 
 	// 岗位接口
 	router.POST("/api/post/add", controller.CreateSysPost)

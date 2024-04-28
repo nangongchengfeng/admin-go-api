@@ -25,10 +25,16 @@ type ISysAdminService interface {
 	Login(c *gin.Context, dto entity.LoginDto)
 	CreateSysAdmin(c *gin.Context, dto entity.AddSysAdminDto)
 	GetSysAdminInfo(c *gin.Context, id int)
+	UpdateSysAdmin(c *gin.Context, dto entity.UpdateSysAdminDto)
 }
 
 // SysAdminServiceImpl 实现ISysAdminService接口
 type SysAdminServiceImpl struct{}
+
+// UpdateSysAdmin 更新用户的信息
+func (s SysAdminServiceImpl) UpdateSysAdmin(c *gin.Context, dto entity.UpdateSysAdminDto) {
+	result.Success(c, dao.UpdateSysAdmin(dto))
+}
 
 // GetSysAdminInfo 根据ID获取用户信息
 func (s SysAdminServiceImpl) GetSysAdminInfo(c *gin.Context, id int) {

@@ -93,3 +93,50 @@ func GetSysAdminInfo(Id int) (sysAdminInfo entity.SysAdminInfo) {
 		First(&sysAdminInfo, Id)
 	return sysAdminInfo
 }
+
+// UpdateSysAdmin 更新系统管理员信息
+// 参数:
+// dto - 包含要更新的系统管理员信息的数据传输对象
+// 返回值:
+// sysAdmin - 更新后的系统管理员实体
+func UpdateSysAdmin(dto entity.UpdateSysAdminDto) (sysAdmin entity.SysAdmin) {
+	// 根据ID从数据库中获取第一个系统管理员记录
+	Db.First(&sysAdmin, dto.Id)
+	// 如果提供了新用户名，则更新用户名
+	if dto.Username != "" {
+		sysAdmin.Username = dto.Username
+	}
+	// 更新职位ID、部门ID和状态
+	sysAdmin.PostId = dto.PostId
+	sysAdmin.DeptId = dto.DeptId
+	sysAdmin.Status = dto.Status
+	// 如果提供了新昵称，则更新昵称
+	if dto.Nickname != "" {
+		sysAdmin.Nickname = dto.Nickname
+	}
+	// 如果提供了新电话号码，则更新电话号码
+	if dto.Phone != "" {
+		sysAdmin.Phone = dto.Phone
+	}
+	// 如果提供了新电子邮件地址，则更新电子邮件地址
+	if dto.Email != "" {
+		sysAdmin.Email = dto.Email
+	}
+	// 如果提供了备注信息，则更新备注
+	if dto.Note != "" {
+		sysAdmin.Note = dto.Note
+	}
+	// 保存更新后的系统管理员信息到数据库
+	Db.Save(&sysAdmin)
+
+	// 删除之前的角色关联，为管理员重新分配角色
+	var sysAdminRole entity.SysAdminRole
+	// 根据管理员ID删除所有旧的角色关联
+	Db.Where("admin_id = ?", dto.Id).Delete(&entity.SysAdminRole{})
+	// 创建新的角色关联
+	sysAdminRole.AdminId = dto.Id
+	sysAdminRole.RoleId = dto.RoleId
+	Db.Create(&sysAdminRole)
+
+	return sysAdmin
+}

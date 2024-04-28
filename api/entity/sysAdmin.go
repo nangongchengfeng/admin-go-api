@@ -78,3 +78,17 @@ type SysAdminInfo struct {
 	Phone    string `json:"phone"`    // 手机号
 	Note     string `json:"note"`     // 备注
 }
+
+// UpdateSysAdminDto 修改参数
+type UpdateSysAdminDto struct {
+	Id       uint   // ID
+	PostId   int    // 岗位id
+	DeptId   int    // 部门id
+	RoleId   uint   // 角色id
+	Username string // 用户名
+	Nickname string // 昵称
+	Phone    string // 手机号
+	Email    string // 邮箱
+	Note     string // 备注
+	Status   int    // 状态：1->启用,2->禁用
+}
