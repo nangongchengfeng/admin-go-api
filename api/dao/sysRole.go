@@ -174,3 +174,19 @@ func QueryRoleMenuIdList(Id int) (idVo []entity.IdVo) {
 		Scan(&idVo)
 	return idVo
 }
+
+// AssignPermissions 分配权限
+func AssignPermissions(menu entity.RoleMenu) (err error) {
+	err = Db.Table("sys_role_menu").Where("role_id = ?", menu.Id).Delete(&entity.SysRoleMenu{}).Error
+	if err != nil {
+		return err
+	}
+	for _, v := range menu.MenuIds {
+		var entity entity.SysRoleMenu
+		entity.RoleId = menu.Id
+		entity.MenuId = v
+		Db.Create(&entity)
+	}
+	return err
+
+}

@@ -62,3 +62,9 @@ type SysRoleVo struct {
 type IdVo struct {
 	Id int `json:"id"` // ID
 }
+
+// RoleMenu 角色id,菜单id视图
+type RoleMenu struct {
+	Id      uint   `json:"id" binding:"required"`      // ID
+	MenuIds []uint `json:"menuIds" binding:"required"` // 菜单id列表
+}

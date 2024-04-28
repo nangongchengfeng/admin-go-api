@@ -77,5 +77,6 @@ func register(router *gin.Engine) {
 	router.GET("/api/role/list", controller.GetSysRoleList)
 	router.GET("/api/role/vo/list", controller.QuerySysRoleVoList)
 	router.GET("/api/role/vo/idList", controller.QueryRoleMenuIdList)
+	router.PUT("/api/role/assignPermissions", controller.AssignPermissions)
 
 }

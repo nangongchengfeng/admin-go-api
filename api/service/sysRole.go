@@ -25,9 +25,15 @@ type ISysRoleService interface {
 	GetSysRoleList(c *gin.Context, PageNum, PageSize int, RoleName, RoleStatus, BeginTime, EndTime string)
 	QuerySysRoleVoList(c *gin.Context)
 	QueryRoleMenuIdList(c *gin.Context, id int)
+	AssignPermissions(c *gin.Context, menu entity.RoleMenu)
 }
 
 type SysRoleServiceImpl struct {
+}
+
+// AssignPermissions 分配权限
+func (s SysRoleServiceImpl) AssignPermissions(c *gin.Context, menu entity.RoleMenu) {
+	result.Success(c, dao.AssignPermissions(menu))
 }
 
 // QueryRoleMenuIdList 获取角色菜单列表

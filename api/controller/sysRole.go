@@ -132,3 +132,17 @@ func QueryRoleMenuIdList(c *gin.Context) {
 	Id, _ := strconv.Atoi(c.Query("Id"))
 	service.SysRoleService().QueryRoleMenuIdList(c, Id)
 }
+
+// AssignPermissions 分配权限
+// @Summary 分配权限
+// @Description: 分配权限
+// @Tags 角色管理
+// @Produce json
+// @Param data body entity.RoleMenu true "data"
+// @Success 200 {object} result.Result
+// @router /api/role/assignPermissions [PUT]
+func AssignPermissions(c *gin.Context) {
+	var RoleMenu entity.RoleMenu
+	_ = c.ShouldBind(&RoleMenu)
+	service.SysRoleService().AssignPermissions(c, RoleMenu)
+}
