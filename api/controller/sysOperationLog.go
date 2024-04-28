@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"admin-go-api/api/entity"
 	"admin-go-api/api/service"
 	"strconv"
 
@@ -36,4 +37,46 @@ func GetSysOperationLogList(c *gin.Context) {
 	PageNum, _ := strconv.Atoi(c.Query("pageNum"))
 	service.SysOperationLogService().GetSysOperationLogList(c, Username,
 		BeginTime, EndTime, PageSize, PageNum)
+}
+
+// DeleteSysOperationLogById 根据id删除操作日志
+// @Summary 根据id删除操作日志
+// @Produce json
+// @Tags 操作日志管理
+// @Description 根据id删除操作日志
+// @Param data body entity.SysOperationLogIdDto true "data"
+// @Success 200 {object} result.Result
+// @router /api/sysOperationLog/delete [delete]
+// @Security ApiKeyAuth
+func DeleteSysOperationLogById(c *gin.Context) {
+	var dto entity.SysOperationLogIdDto
+	_ = c.BindJSON(&dto)
+	service.SysOperationLogService().DeleteSysOperationLogById(c, dto)
+}
+
+// BatchDeleteSysOperationLog 批量删除操作日志
+// @Summary 批量删除操作日志接口
+// @Produce json
+// @Tags 操作日志管理
+// @Description 批量删除操作日志接口
+// @Param data body entity.BatchDeleteSysOperationLogDto true "data"
+// @Success 200 {object} result.Result
+// @router /api/sysOperationLog/batch/delete [delete]
+// @Security ApiKeyAuth
+func BatchDeleteSysOperationLog(c *gin.Context) {
+	var dto entity.BatchDeleteSysOperationLogDto
+	_ = c.BindJSON(&dto)
+	service.SysOperationLogService().BatchDeleteSysOperationLog(c, dto)
+}
+
+// CleanSysOperationLog 清空操作日志
+// @Summary 清空操作日志接口
+// @Produce json
+// @Tags 操作日志管理
+// @Description 清空操作日志接口
+// @Success 200 {object} result.Result
+// @router /api/sysOperationLog/clean [delete]
+// @Security ApiKeyAuth
+func CleanSysOperationLog(c *gin.Context) {
+	service.SysOperationLogService().CleanSysOperationLog(c)
 }

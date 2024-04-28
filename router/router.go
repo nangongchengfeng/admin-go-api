@@ -95,11 +95,15 @@ func register(router *gin.Engine) {
 		jwt.GET("/role/vo/idList", controller.QueryRoleMenuIdList)
 		jwt.PUT("/role/assignPermissions", controller.AssignPermissions)
 
-		// 日志管理
+		// 登录日志管理
 		jwt.GET("/sysLoginInfo/list", controller.GetSysLoginInfoList)
 		jwt.DELETE("/sysLoginInfo/batch/delete", controller.BatchDeleteSysLoginInfo)
 		jwt.DELETE("/sysLoginInfo/delete", controller.DeleteSysLoginInfoById)
 		jwt.DELETE("/sysLoginInfo/clean", controller.CleanSysLoginInfo)
+		//操作日志管理
 		jwt.GET("/sysOperationLog/list", controller.GetSysOperationLogList)
+		jwt.DELETE("/sysOperationLog/delete", controller.DeleteSysOperationLogById)
+		jwt.DELETE("/sysOperationLog/batch/delete", controller.BatchDeleteSysOperationLog)
+		jwt.DELETE("/sysOperationLog/clean", controller.CleanSysOperationLog)
 	}
 }

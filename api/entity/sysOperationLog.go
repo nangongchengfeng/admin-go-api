@@ -25,3 +25,13 @@ type SysOperationLog struct {
 func (SysOperationLog) TableName() string {
 	return "sys_operation_log"
 }
+
+// SysOperationLogIdDto Id参数
+type SysOperationLogIdDto struct {
+	Id uint `json:"id"` // ID
+}
+
+// BatchDeleteSysOperationLogDto 批量删除id参数
+type BatchDeleteSysOperationLogDto struct {
+	Ids []uint //id列表
+}
