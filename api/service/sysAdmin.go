@@ -193,9 +193,12 @@ func (s SysAdminServiceImpl) Login(c *gin.Context, dto entity.LoginDto) {
 			result.ApiCode.GetMessage(result.ApiCode.MissingLoginParameter))
 		return
 	}
+	ip := c.ClientIP()
+
 	// 验证码是否过期
 	code := util.RedisStore{}.Get(dto.IdKey, true)
 	if len(code) == 0 {
+		dao.CreateSysLoginInfo(dto.Username, ip, util.GetRealAddressByIP(ip), util.GetBrowser(c), util.GetOs(c), "验证码已过期", 2)
 		result.Failed(c, int(result.ApiCode.VerificationCodeHasExpired),
 			result.ApiCode.GetMessage(result.ApiCode.VerificationCodeHasExpired))
 		return
@@ -203,6 +206,8 @@ func (s SysAdminServiceImpl) Login(c *gin.Context, dto entity.LoginDto) {
 	// 校验验证码
 	verifyRes := CaptVerify(dto.IdKey, dto.Image)
 	if !verifyRes {
+		dao.CreateSysLoginInfo(dto.Username, ip, util.GetRealAddressByIP(ip),
+			util.GetBrowser(c), util.GetOs(c), "验证码不正确", 2)
 		result.Failed(c, int(result.ApiCode.CAPTCHANOTTRUE),
 			result.ApiCode.GetMessage(result.ApiCode.CAPTCHANOTTRUE))
 		return
@@ -211,12 +216,16 @@ func (s SysAdminServiceImpl) Login(c *gin.Context, dto entity.LoginDto) {
 	sysAdmin := dao.SysAdminDetail(dto)
 
 	if sysAdmin.Password != util.EncryptionMd5(dto.Password) {
+		dao.CreateSysLoginInfo(dto.Username, ip, util.GetRealAddressByIP(ip),
+			util.GetBrowser(c), util.GetOs(c), "密码不正确", 2)
 		result.Failed(c, int(result.ApiCode.PASSWORDNOTTRUE),
 			result.ApiCode.GetMessage(result.ApiCode.PASSWORDNOTTRUE))
 		return
 	}
 	const status int = 2
 	if sysAdmin.Status == status {
+		dao.CreateSysLoginInfo(dto.Username, ip, util.GetRealAddressByIP(ip),
+			util.GetBrowser(c), util.GetOs(c), "账号已停用", 2)
 		result.Failed(c, int(result.ApiCode.STATUSISENABLE),
 			result.ApiCode.GetMessage(result.ApiCode.STATUSISENABLE))
 		return
@@ -232,7 +241,7 @@ func (s SysAdminServiceImpl) Login(c *gin.Context, dto entity.LoginDto) {
 	}
 	// 生成token
 	tokenString, _ := jwt.GenerateTokenByAdmin(jwtAdmin)
-
+	dao.CreateSysLoginInfo(dto.Username, ip, util.GetRealAddressByIP(ip), util.GetBrowser(c), util.GetOs(c), "登录成功", 1)
 	// 生成左侧菜单列表和权限列表，基于系统管理员的ID。
 	// 该代码段没有作为函数封装，因此不涉及参数和返回值说明。
 
@@ -264,6 +273,7 @@ func (s SysAdminServiceImpl) Login(c *gin.Context, dto entity.LoginDto) {
 	for _, value := range permissionList {
 		stringList = append(stringList, value.Value)
 	}
+
 	//result.Success(c, map[string]interface{}{"token": tokenString, "sysAdmin": sysAdmin})
 	result.Success(c, map[string]interface{}{"token": tokenString, "sysAdmin": sysAdmin, "leftMenuList": leftMenuVo, "permissionList": stringList})
 }
