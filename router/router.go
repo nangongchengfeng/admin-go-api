@@ -100,5 +100,6 @@ func register(router *gin.Engine) {
 		jwt.DELETE("/sysLoginInfo/batch/delete", controller.BatchDeleteSysLoginInfo)
 		jwt.DELETE("/sysLoginInfo/delete", controller.DeleteSysLoginInfoById)
 		jwt.DELETE("/sysLoginInfo/clean", controller.CleanSysLoginInfo)
+		jwt.GET("/sysOperationLog/list", controller.GetSysOperationLogList)
 	}
 }

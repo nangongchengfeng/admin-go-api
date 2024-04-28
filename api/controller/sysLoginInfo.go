@@ -19,7 +19,7 @@ import (
 // GetSysLoginInfoList 分页获取登录日志列表
 // @Summary 分页获取登录日志列表接口
 // @Produce json
-// @Tags 日志管理
+// @Tags 登录日志管理
 // @Description 分页获取登录日志列表接口
 // @Param pageNum query int false "分页数"
 // @Param pageSize query int false "每页数"
@@ -44,7 +44,7 @@ func GetSysLoginInfoList(c *gin.Context) {
 // BatchDeleteSysLoginInfo 批量删除登录日志
 // @Summary 批量删除登录日志接口
 // @Produce json
-// @Tags 日志管理
+// @Tags 登录日志管理
 // @Description 批量删除登录日志接口
 // @Param data body entity.DelSysLoginInfoDto true "data"
 // @Success 200 {object} result.Result
@@ -59,7 +59,7 @@ func BatchDeleteSysLoginInfo(c *gin.Context) {
 // DeleteSysLoginInfoById 根据ID删除登录日志
 // @Summary 根据ID删除登录日志接口
 // @Produce json
-// @Tags 日志管理
+// @Tags 登录日志管理
 // @Description 根据ID删除登录日志接口
 // @Param data body entity.SysLoginInfoIdDto true "data"
 // @Success 200 {object} result.Result
@@ -74,7 +74,7 @@ func DeleteSysLoginInfoById(c *gin.Context) {
 // CleanSysLoginInfo 清空登录日志
 // @Summary 清空登录日志接口
 // @Produce json
-// @Tags 日志管理
+// @Tags 登录日志管理
 // @Description 清空登录日志接口
 // @Success 200 {object} result.Result
 // @router /api/sysLoginInfo/clean [delete]
