@@ -56,3 +56,9 @@ func CreateSysRole(dto entity.AddSysRoleDto) bool {
 	}
 	return false
 }
+
+// GetSysRoleById 根据角色id查询角色
+func GetSysRoleById(Id int) (sysRole entity.SysRole) {
+	Db.Where("id = ?", Id).First(&sysRole)
+	return sysRole
+}

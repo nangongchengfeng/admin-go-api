@@ -18,9 +18,16 @@ import (
 
 type ISysRoleService interface {
 	CreateSysRole(c *gin.Context, dto entity.AddSysRoleDto)
+	GetSysRoleById(c *gin.Context, id int)
 }
 
 type SysRoleServiceImpl struct {
+}
+
+// GetSysRoleById 获取角色
+func (s SysRoleServiceImpl) GetSysRoleById(c *gin.Context, id int) {
+	sysRole := dao.GetSysRoleById(id)
+	result.Success(c, sysRole)
 }
 
 // CreateSysRole 创建角色

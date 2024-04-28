@@ -70,4 +70,5 @@ func register(router *gin.Engine) {
 
 	// 角色管理
 	router.POST("/api/role/add", controller.CreateSysRole)
+	router.GET("/api/role/info", controller.GetSysRoleById)
 }

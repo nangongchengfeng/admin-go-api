@@ -3,6 +3,7 @@ package controller
 import (
 	"admin-go-api/api/entity"
 	"admin-go-api/api/service"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -28,4 +29,17 @@ var sysRole entity.AddSysRoleDto
 func CreateSysRole(c *gin.Context) {
 	_ = c.ShouldBind(&sysRole)
 	service.SysRoleService().CreateSysRole(c, sysRole)
+}
+
+// GetSysRoleById 获取角色详情
+// @Summary 获取角色详情
+// @Description: 获取角色详情
+// @Tags 角色管理
+// @Produce json
+// @Param id query int true "id"
+// @Success 200 {object} result.Result
+// @router /api/role/info [get]
+func GetSysRoleById(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Query("id"))
+	service.SysRoleService().GetSysRoleById(c, id)
 }
