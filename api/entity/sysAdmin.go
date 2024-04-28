@@ -92,3 +92,8 @@ type UpdateSysAdminDto struct {
 	Note     string // 备注
 	Status   int    // 状态：1->启用,2->禁用
 }
+
+// SysAdminIdDto Id参数
+type SysAdminIdDto struct {
+	Id uint `json:"id"` // ID
+}

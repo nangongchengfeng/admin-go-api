@@ -140,3 +140,15 @@ func UpdateSysAdmin(dto entity.UpdateSysAdminDto) (sysAdmin entity.SysAdmin) {
 
 	return sysAdmin
 }
+
+// DeleteSysAdminById 根据管理员ID删除系统管理员及其角色信息
+// 参数:
+// Id - 管理员ID数据传输对象，包含需要删除的管理员的ID
+func DeleteSysAdminById(Id entity.SysAdminIdDto) {
+	// 首先查找指定ID的管理员信息
+	Db.First(&entity.SysAdmin{}, Id.Id)
+	// 删除指定ID的管理员信息
+	Db.Delete(&entity.SysAdmin{}, Id.Id)
+	// 删除与指定ID管理员相关的所有角色信息
+	Db.Where("admin_id = ?", Id.Id).Delete(&entity.SysAdminRole{})
+}
