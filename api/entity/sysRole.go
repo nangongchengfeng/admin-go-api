@@ -31,3 +31,12 @@ type AddSysRoleDto struct {
 	Status      int    // 状态：1->启用,2->禁用
 	Description string // 描述
 }
+
+// UpdateSysRoleDto 更新参数
+type UpdateSysRoleDto struct {
+	ID          uint
+	RoleName    string
+	RoleKey     string // 角色key
+	Status      int    // 状态：1->启用,2->禁用
+	Description string
+}

@@ -62,3 +62,22 @@ func GetSysRoleById(Id int) (sysRole entity.SysRole) {
 	Db.Where("id = ?", Id).First(&sysRole)
 	return sysRole
 }
+
+// UpdateSysRole  用于更新系统角色的信息。
+// 参数 dto 为更新角色所需的数据传输对象，包含要更新的角色ID、状态、角色名、角色键以及可选的角色描述。
+// 返回值为更新后的角色实体。
+func UpdateSysRole(dto entity.UpdateSysRoleDto) (sysRole entity.SysRole) {
+	// 根据ID从数据库中找到对应的系统角色
+	Db.First(&sysRole, dto.ID)
+	// 更新角色的状态、角色名、角色键
+	sysRole.Status = dto.Status
+	sysRole.RoleName = dto.RoleName
+	sysRole.RoleKey = dto.RoleKey
+	// 如果描述不为空，则更新角色的描述
+	if dto.Description != "" {
+		sysRole.Description = dto.Description
+	}
+	// 保存更新后的角色到数据库
+	Db.Save(&sysRole)
+	return sysRole
+}

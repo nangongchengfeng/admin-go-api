@@ -43,3 +43,17 @@ func GetSysRoleById(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Query("id"))
 	service.SysRoleService().GetSysRoleById(c, id)
 }
+
+// UpdateSysRole 修改角色
+// @Summary 修改角色
+// @Description: 修改角色
+// @Tags 角色管理
+// @Produce json
+// @Param data body entity.UpdateSysRoleDto true "data"
+// @Success 200 {object} result.Result
+// @router /api/role/update [PUT]
+func UpdateSysRole(c *gin.Context) {
+	var dto entity.UpdateSysRoleDto
+	_ = c.ShouldBind(&dto)
+	service.SysRoleService().UpdateSysRole(c, dto)
+}
