@@ -166,3 +166,74 @@ func GetSysMenuList(MenuName string, MenuStatus string) (sysMenu []*entity.SysMe
 	curDb.Find(&sysMenu)
 	return
 }
+
+// QueryMenuVoList 获取当前登录用户左侧菜单列表
+// 根据管理员ID和菜单ID查询菜单详情，返回一个菜单实体列表。
+// AdminId: 当前登录管理员的ID
+// MenuId: 菜单的父级ID，用于指定查询某一级菜单
+// 返回值 menuSvo: 查询到的菜单实体列表
+func QueryMenuVoList(AdminId, MenuId uint) (menuSvo []entity.MenuSvo) {
+	// 定义查询时过滤的状态和类型条件
+	// status '启用状态：1->启用；2->禁用',
+	// menuStatus 启用状态；1->禁用；2->启用
+	// menuType 菜单类型：1->目录；2->菜单；3->按钮（接口绑定权限）
+	const status, menuStatus, menuType uint = 1, 2, 2
+	// 构造查询语句，进行多表连接查询并设置条件
+	Db.Table("sys_menu sm").
+		Select("sm.menu_name, sm.icon, sm.url").
+		Joins("LEFT JOIN sys_role_menu srm ON sm.id = srm.menu_id").
+		Joins("LEFT JOIN sys_role sr ON sr.id = srm.role_id").
+		Joins("LEFT JOIN sys_admin_role sar ON sar.role_id = sr.id").
+		Joins("LEFT JOIN sys_admin sa ON sa.id = sar.admin_id").
+		Where("sr.status = ?", status).
+		Where("sm.menu_status = ?", menuStatus).
+		Where("sm.menu_type = ?", menuType).
+		Where("sm.parent_id = ?", MenuId).
+		Where("sa.id = ?", AdminId).
+		Order("sm.sort").
+		Scan(&menuSvo) // 扫描查询结果到menuSvo列表中
+	return menuSvo
+}
+
+// QueryLeftMenuList 当前登录用户左侧菜单列表
+func QueryLeftMenuList(Id uint) (leftMenuVo []entity.LeftMenuVo) {
+	// 定义查询时过滤的状态和类型条件
+	// status '启用状态：1->启用；2->禁用',
+	// menuStatus 启用状态；1->禁用；2->启用
+	// menuType 菜单类型：1->目录；2->菜单；3->按钮（接口绑定权限）
+	const status, menuStatus, menuType uint = 1, 2, 1
+	Db.Table("sys_menu sm").
+		Select("sm.id, sm.menu_name, sm.url, sm.icon").
+		Joins("LEFT JOIN sys_role_menu srm ON sm.id = srm.menu_id").
+		Joins("LEFT JOIN sys_role sr ON sr.id = srm.role_id").
+		Joins("LEFT JOIN sys_admin_role sar ON sar.role_id = sr.id").
+		Joins("LEFT JOIN sys_admin sa ON sa.id = sar.admin_id").
+		Where("sr.status = ?", status).
+		Where("sm.menu_status = ?", menuStatus).
+		Where("sm.menu_type = ?", menuType).
+		Where("sa.id = ?", Id).
+		Order("sm.sort").
+		Scan(&leftMenuVo)
+	return leftMenuVo
+}
+
+// QueryPermissionList 当前登录用户权限列表
+func QueryPermissionList(Id uint) (valueVo []entity.ValueVo) {
+	// 定义查询时过滤的状态和类型条件
+	// status '启用状态：1->启用；2->禁用',
+	// menuStatus 启用状态；1->禁用；2->启用
+	// menuType 菜单类型：1->目录；2->菜单；3->按钮（接口绑定权限）
+	const status, menuStatus, menuType uint = 1, 2, 1
+	Db.Table("sys_menu sm").
+		Select("sm.value").
+		Joins("LEFT JOIN sys_role_menu srm ON sm.id = srm.menu_id").
+		Joins("LEFT JOIN sys_role sr ON sr.id = srm.role_id").
+		Joins("LEFT JOIN sys_admin_role sar ON sar.role_id = sr.id").
+		Joins("LEFT JOIN sys_admin sa ON sa.id = sar.admin_id").
+		Where("sr.status = ?", status).
+		Where("sm.menu_status = ?", menuStatus).
+		Not("sm.menu_type = ?", menuType).
+		Where("sa.id = ?", Id).
+		Scan(&valueVo)
+	return valueVo
+}

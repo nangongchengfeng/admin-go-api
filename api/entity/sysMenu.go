@@ -41,3 +41,24 @@ type SysMenuVo struct {
 	ParentId uint   `json:"parentId"`
 	Label    string `json:"label"`
 }
+
+// MenuSvo 菜单级vo
+type MenuSvo struct {
+	MenuName string `json:"menuName"` // 菜单名称
+	Icon     string `json:"icon"`     // 图标
+	Url      string `json:"url"`      // url
+}
+
+// LeftMenuVo 左侧菜单vo
+type LeftMenuVo struct {
+	Id          uint      `json:"id"`          // ID
+	MenuName    string    `json:"menuName"`    // 菜单名称
+	Icon        string    `json:"icon"`        // 图标
+	Url         string    `json:"url"`         // url
+	MenuSvoList []MenuSvo `json:"menuSvoList"` // 菜单列表
+}
+
+// ValueVo 权限vo
+type ValueVo struct {
+	Value string `json:"value"` // 权限
+}

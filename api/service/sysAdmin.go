@@ -232,7 +232,40 @@ func (s SysAdminServiceImpl) Login(c *gin.Context, dto entity.LoginDto) {
 	}
 	// 生成token
 	tokenString, _ := jwt.GenerateTokenByAdmin(jwtAdmin)
-	result.Success(c, map[string]interface{}{"token": tokenString, "sysAdmin": sysAdmin})
+
+	// 生成左侧菜单列表和权限列表，基于系统管理员的ID。
+	// 该代码段没有作为函数封装，因此不涉及参数和返回值说明。
+
+	// 初始化左侧菜单实体列表
+	var leftMenuVo []entity.LeftMenuVo
+	// 查询与系统管理员ID相关联的左侧菜单列表
+	leftMenuList := dao.QueryLeftMenuList(sysAdmin.ID)
+	// 遍历左侧菜单列表，为每个菜单项查询子菜单列表并构建菜单树
+	for _, value := range leftMenuList {
+		// 查询当前菜单项的子菜单列表
+		menuSvoList := dao.QueryMenuVoList(sysAdmin.ID, value.Id)
+		// 初始化一个左侧菜单项实体
+		item := entity.LeftMenuVo{}
+		// 填充菜单项实体的属性
+		item.MenuSvoList = menuSvoList
+		item.Id = value.Id
+		item.MenuName = value.MenuName
+		item.Icon = value.Icon
+		item.Url = value.Url
+		// 将构建好的菜单项实体添加到菜单列表
+		leftMenuVo = append(leftMenuVo, item)
+	}
+
+	// 查询系统管理员的权限列表
+	permissionList := dao.QueryPermissionList(sysAdmin.ID)
+	// 初始化一个字符串切片，用于存储权限值
+	var stringList = make([]string, 0)
+	// 遍历权限列表，将每个权限的值添加到字符串切片中
+	for _, value := range permissionList {
+		stringList = append(stringList, value.Value)
+	}
+	//result.Success(c, map[string]interface{}{"token": tokenString, "sysAdmin": sysAdmin})
+	result.Success(c, map[string]interface{}{"token": tokenString, "sysAdmin": sysAdmin, "leftMenuList": leftMenuVo, "permissionList": stringList})
 }
 
 // 定义一个系统管理员服务实现类
