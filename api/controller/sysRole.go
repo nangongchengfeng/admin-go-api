@@ -108,3 +108,14 @@ func GetSysRoleList(c *gin.Context) {
 	EndTime := c.Query("EndTime")
 	service.SysRoleService().GetSysRoleList(c, PageNum, PageSize, RoleName, Status, BeginTime, EndTime)
 }
+
+// QuerySysRoleVoList 获取角色列表
+// @Summary 获取角色列表
+// @Description: 获取角色列表
+// @Tags 角色管理
+// @Produce json
+// @Success 200 {object} result.Result
+// @router /api/role/vo/list [get]
+func QuerySysRoleVoList(c *gin.Context) {
+	service.SysRoleService().QuerySysRoleVoList(c)
+}

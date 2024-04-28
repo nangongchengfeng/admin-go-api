@@ -149,3 +149,9 @@ func GetSysRoleList(PageNum int, PageSize int, RoleName string, Status string, B
 
 	return sysRole, count
 }
+
+// QuerySysRoleVoList 角色下拉视图列表。
+func QuerySysRoleVoList() (sysRoleVo []entity.SysRoleVo) {
+	Db.Table("sys_role").Select("id,role_name").Scan(&sysRoleVo)
+	return sysRoleVo
+}

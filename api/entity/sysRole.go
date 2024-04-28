@@ -51,3 +51,9 @@ type UpdateSysRoleStatusDto struct {
 	Id     uint
 	Status int // 状态：1->启用,2->禁用
 }
+
+// SysRoleVo 角色下拉列表
+type SysRoleVo struct {
+	ID       int    `json:"id"`
+	RoleName string `json:"roleName"`
+}
