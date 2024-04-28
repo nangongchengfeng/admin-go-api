@@ -97,3 +97,8 @@ type UpdateSysAdminDto struct {
 type SysAdminIdDto struct {
 	Id uint `json:"id"` // ID
 }
+
+type UpdateSysAdminStatusDto struct {
+	Id     uint `json:"id"`
+	Status int  `json:"status"`
+}

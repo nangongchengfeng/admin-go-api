@@ -152,3 +152,11 @@ func DeleteSysAdminById(Id entity.SysAdminIdDto) {
 	// 删除与指定ID管理员相关的所有角色信息
 	Db.Where("admin_id = ?", Id.Id).Delete(&entity.SysAdminRole{})
 }
+
+// UpdateSysAdminStatus 更新用户状态
+func UpdateSysAdminStatus(dto entity.UpdateSysAdminStatusDto) {
+	var sysAdmin entity.SysAdmin
+	Db.First(&sysAdmin, dto.Id)
+	sysAdmin.Status = dto.Status
+	Db.Save(&sysAdmin)
+}

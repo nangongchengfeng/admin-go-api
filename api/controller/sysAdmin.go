@@ -84,3 +84,17 @@ func DeleteSysAdminById(c *gin.Context) {
 	_ = c.BindJSON(&dto)
 	service.SysAdminService().DeleteSysAdminById(c, dto)
 }
+
+// UpdateSysAdminStatus 修改用户状态
+// @Summary 修改用户状态
+// @Tags 用户管理
+// @Produce json
+// @Description 修改用户状态
+// @Param data body entity.UpdateSysAdminStatusDto true "data"
+// @Success 200 {object} result.Result
+// @router /api/admin/updateStatus [put]
+func UpdateSysAdminStatus(c *gin.Context) {
+	var dto entity.UpdateSysAdminStatusDto
+	_ = c.BindJSON(&dto)
+	service.SysAdminService().UpdateSysAdminStatus(c, dto)
+}
