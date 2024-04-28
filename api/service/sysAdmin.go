@@ -41,11 +41,12 @@ type SysAdminServiceImpl struct{}
 func (s SysAdminServiceImpl) UpdatePersonal(c *gin.Context, dto entity.UpdatePersonalDto) {
 	err := validator.New().Struct(dto)
 	if err != nil {
-		result.Failed(c, int(result.ApiCode.MissingModificationOfPersonalParameters), result.ApiCode.GetMessage(result.ApiCode.MissingModificationOfPersonalParameters))
-		return
+		result.Failed(c,
+			int(result.ApiCode.MissingModificationOfPersonalParameters),
+			result.ApiCode.GetMessage(result.ApiCode.MissingModificationOfPersonalParameters))
 	}
-	//id, _ := jwt.GetAdmin(c)
-	dto.Id = 89
+	id, _ := jwt.GetAdminId(c)
+	dto.Id = id
 	result.Success(c, dao.UpdatePersonal(dto))
 }
 
