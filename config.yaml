@@ -1,6 +1,6 @@
 #项目启动的端口
 server:
-  address: 0.0.0.0:2022
+  address: 0.0.0.0:2002
   model: debug
 
 #数据库配置
@@ -25,9 +25,9 @@ redis:
 #图片上传配置
 imageSettings:
   #本地磁盘
-  uploadDir: /admin-api/upload/
+  uploadDir: /admin-api-go/upload/
   #本地ip地址（线上地址可以更换）
-  imageHost: http://localhost:2000
+  imageHost: http://127.0.0.1:2002
 log:
   path: ./log
   name: sys

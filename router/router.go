@@ -41,6 +41,8 @@ func register(router *gin.Engine) {
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	// 用户接口
 	router.GET("/api/captcha", controller.Captcha)
+	router.POST("/api/upload", controller.Upload)
+
 	router.POST("/api/login", controller.Login)
 	router.POST("/api/admin/add", controller.CreateSysAdmin)
 	router.GET("/api/admin/info", controller.GetSysAdminInfo)

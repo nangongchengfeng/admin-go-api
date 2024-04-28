@@ -15,7 +15,7 @@ import (
  * @Date: 2024-04-25 17:47
  */
 
-// 验证码
+// Captcha 验证码
 // @Summary 验证码接口
 // @Tags 工具接口
 // @Produce json
