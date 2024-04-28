@@ -22,9 +22,28 @@ type ISysRoleService interface {
 	UpdateSysRole(c *gin.Context, sysRole entity.UpdateSysRoleDto)
 	DeleteSysRoleById(c *gin.Context, dto entity.SysRoleIdDto)
 	UpdateSysRoleStatus(c *gin.Context, dto entity.UpdateSysRoleStatusDto)
+	GetSysRoleList(c *gin.Context, PageNum, PageSize int, RoleName, RoleStatus, BeginTime, EndTime string)
 }
 
 type SysRoleServiceImpl struct {
+}
+
+// GetSysRoleList 获取角色列表
+func (s SysRoleServiceImpl) GetSysRoleList(c *gin.Context, PageNum, PageSize int, RoleName, RoleStatus, BeginTime, EndTime string) {
+	if PageSize < 1 {
+		PageSize = 10
+	}
+	if PageNum < 1 {
+		PageNum = 1
+	}
+
+	sysRoleList, count := dao.GetSysRoleList(PageNum, PageSize, RoleName, RoleStatus, BeginTime, EndTime)
+	result.Success(c, map[string]interface{}{
+		"total":    count,
+		"pageSize": PageSize,
+		"pageNum":  PageNum,
+		"list":     sysRoleList,
+	})
 }
 
 // UpdateSysRoleStatus 更新角色状态

@@ -115,3 +115,37 @@ func UpdateSysRoleStatus(dto entity.UpdateSysRoleStatusDto) bool {
 	}
 	return false // 若没有行受到影響，则返回false，表示更新失败或未找到指定角色
 }
+
+// GetSysRoleList 获取系统角色列表。
+// 参数：
+// - PageNum: 请求的页码。
+// - PageSize: 每页显示的数量。
+// - RoleName: 角色名称，可选，用于筛选指定名称的角色。
+// - Status: 状态，可选，用于筛选指定状态的角色。
+// - BeginTime: 起始时间，可选，用于筛选创建时间在指定范围内的角色。
+// - EndTime: 结束时间，可选，需与BeginTime一起使用，用于筛选创建时间在指定范围内的角色。
+// 返回值：
+// - sysRole: 符合条件的角色列表。
+// - count: 符合条件的角色总数。
+func GetSysRoleList(PageNum int, PageSize int, RoleName string, Status string, BeginTime string, EndTime string) (sysRole []*entity.SysRole, count int64) {
+	curDb := Db.Table("sys_role") // 从数据库中获取"sys_role"表的引用
+
+	// 根据提供的条件筛选角色
+	if RoleName != "" {
+		curDb = curDb.Where("role_name = ?", RoleName)
+	}
+	if BeginTime != "" && EndTime != "" {
+		curDb = curDb.Where("create_time BETWEEN ? AND ?", BeginTime, EndTime)
+	}
+	if Status != "" {
+		curDb = curDb.Where("status = ?", Status)
+	}
+
+	// 计算符合条件的角色总数
+	curDb.Count(&count)
+
+	// 分页查询，并按创建时间降序排列
+	curDb.Limit(PageSize).Offset((PageNum - 1) * PageSize).Order("create_time DESC").Find(&sysRole)
+
+	return sysRole, count
+}
