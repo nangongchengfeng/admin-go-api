@@ -136,3 +136,17 @@ func GetSysAdminList(c *gin.Context) {
 	service.SysAdminService().GetSysAdminList(c, PageSize, PageNum, Username,
 		Status, BeginTime, EndTime)
 }
+
+// UpdatePersonal 修改个人信息
+// @Summary 修改个人信息
+// @Tags 用户管理
+// @Produce json
+// @Description 修改个人信息
+// @Param data body entity.UpdatePersonalDto true "data"
+// @Success 200 {object} result.Result
+// @router /api/admin/updatePersonal [put]
+func UpdatePersonal(c *gin.Context) {
+	var dto entity.UpdatePersonalDto
+	_ = c.BindJSON(&dto)
+	service.SysAdminService().UpdatePersonal(c, dto)
+}

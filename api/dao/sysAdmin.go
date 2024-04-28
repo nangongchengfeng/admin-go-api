@@ -191,3 +191,29 @@ func GetSysAdminList(PageSize, PageNum int, Username, Status, BeginTime, EndTime
 	curDb.Limit(PageSize).Offset((PageNum - 1) * PageSize).Order("sys_admin.create_time DESC").Find(&sysAdminVo)
 	return sysAdminVo, count
 }
+
+// UpdatePersonal 更新个人信息
+func UpdatePersonal(dto entity.UpdatePersonalDto) (sysAdmin entity.SysAdmin) {
+	Db.First(&sysAdmin, dto.Id)
+	if dto.Icon != "" {
+		sysAdmin.Icon = dto.Icon
+	}
+	if dto.Username != "" {
+		sysAdmin.Username = dto.Username
+	}
+	if dto.Nickname != "" {
+		sysAdmin.Nickname = dto.Nickname
+	}
+	if dto.Phone != "" {
+		sysAdmin.Phone = dto.Phone
+	}
+	if dto.Email != "" {
+		sysAdmin.Email = dto.Email
+	}
+	if dto.Note != "" {
+		sysAdmin.Note = dto.Note
+	}
+
+	Db.Save(&sysAdmin)
+	return sysAdmin
+}

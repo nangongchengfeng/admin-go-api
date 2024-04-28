@@ -31,10 +31,23 @@ type ISysAdminService interface {
 	UpdateSysAdminStatus(c *gin.Context, dto entity.UpdateSysAdminStatusDto)
 	ResetSysAdminPassword(c *gin.Context, dto entity.ResetSysAdminPasswordDto)
 	GetSysAdminList(c *gin.Context, PageNum, PageSize int, UserName, Status, BeginTime, EndTime string)
+	UpdatePersonal(c *gin.Context, dto entity.UpdatePersonalDto)
 }
 
 // SysAdminServiceImpl 实现ISysAdminService接口
 type SysAdminServiceImpl struct{}
+
+// UpdatePersonal 更新个人信息
+func (s SysAdminServiceImpl) UpdatePersonal(c *gin.Context, dto entity.UpdatePersonalDto) {
+	err := validator.New().Struct(dto)
+	if err != nil {
+		result.Failed(c, int(result.ApiCode.MissingModificationOfPersonalParameters), result.ApiCode.GetMessage(result.ApiCode.MissingModificationOfPersonalParameters))
+		return
+	}
+	//id, _ := jwt.GetAdmin(c)
+	dto.Id = 89
+	result.Success(c, dao.UpdatePersonal(dto))
+}
 
 // GetSysAdminList 获取用户列表
 func (s SysAdminServiceImpl) GetSysAdminList(c *gin.Context, PageNum, PageSize int, UserName, Status, BeginTime, EndTime string) {
