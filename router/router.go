@@ -97,5 +97,8 @@ func register(router *gin.Engine) {
 
 		// 日志管理
 		jwt.GET("/sysLoginInfo/list", controller.GetSysLoginInfoList)
+		jwt.DELETE("/sysLoginInfo/batch/delete", controller.BatchDeleteSysLoginInfo)
+		jwt.DELETE("/sysLoginInfo/delete", controller.DeleteSysLoginInfoById)
+		jwt.DELETE("/sysLoginInfo/clean", controller.CleanSysLoginInfo)
 	}
 }

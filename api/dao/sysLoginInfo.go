@@ -46,3 +46,18 @@ func GetSysLoginInfoList(Username, LoginStatus, BeginTime, EndTime string, PageS
 	curDb.Limit(PageSize).Offset((PageNum - 1) * PageSize).Order("login_time desc").Find(&sysLoginInfo)
 	return sysLoginInfo, count
 }
+
+// BatchDeleteSysLoginInfo 批量删除登录日志
+func BatchDeleteSysLoginInfo(dto entity.DelSysLoginInfoDto) {
+	Db.Where("id in (?)", dto.Ids).Delete(&entity.SysLoginInfo{})
+}
+
+// DeleteSysLoginInfoById 根据ID删除日志
+func DeleteSysLoginInfoById(dto entity.SysLoginInfoIdDto) {
+	Db.Delete(&entity.SysLoginInfo{}, dto.Id)
+}
+
+// CleanSysLoginInfo 清空登录日志
+func CleanSysLoginInfo() {
+	Db.Exec("truncate table sys_login_info")
+}
