@@ -96,22 +96,22 @@ func UpdateSysRoleStatus(c *gin.Context) {
 // @Description: 获取角色列表
 // @Tags 角色管理
 // @Produce json
-// @Param PageSize query int false "PageSize"
-// @Param PageNum query int false "PageNum"
-// @Param RoleName query string false "RoleName"
-// @Param Status query string false "Status"
-// @Param BeginTime query string false "BeginTime"
-// @Param EndTime query string false "EndTime"
+// @Param pageSize query int false "PageSize"
+// @Param pageNum query int false "PageNum"
+// @Param roleName query string false "RoleName"
+// @Param status query string false "Status"
+// @Param beginTime query string false "BeginTime"
+// @Param endTime query string false "EndTime"
 // @Success 200 {object} result.Result
 // @router /api/role/list [get]
 // @Security ApiKeyAuth
 func GetSysRoleList(c *gin.Context) {
-	PageSize, _ := strconv.Atoi(c.Query("PageSize"))
-	PageNum, _ := strconv.Atoi(c.Query("PageNum"))
-	RoleName := c.Query("RoleName")
-	Status := c.Query("Status")
-	BeginTime := c.Query("BeginTime")
-	EndTime := c.Query("EndTime")
+	PageSize, _ := strconv.Atoi(c.Query("pageSize"))
+	PageNum, _ := strconv.Atoi(c.Query("pageNum"))
+	RoleName := c.Query("roleName")
+	Status := c.Query("status")
+	BeginTime := c.Query("beginTime")
+	EndTime := c.Query("endTime")
 	service.SysRoleService().GetSysRoleList(c, PageNum, PageSize, RoleName, Status, BeginTime, EndTime)
 }
 

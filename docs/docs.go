@@ -1278,37 +1278,37 @@ const docTemplate = `{
                     {
                         "type": "integer",
                         "description": "PageSize",
-                        "name": "PageSize",
+                        "name": "pageSize",
                         "in": "query"
                     },
                     {
                         "type": "integer",
                         "description": "PageNum",
-                        "name": "PageNum",
+                        "name": "pageNum",
                         "in": "query"
                     },
                     {
                         "type": "string",
                         "description": "RoleName",
-                        "name": "RoleName",
+                        "name": "roleName",
                         "in": "query"
                     },
                     {
                         "type": "string",
                         "description": "Status",
-                        "name": "Status",
+                        "name": "status",
                         "in": "query"
                     },
                     {
                         "type": "string",
                         "description": "BeginTime",
-                        "name": "BeginTime",
+                        "name": "beginTime",
                         "in": "query"
                     },
                     {
                         "type": "string",
                         "description": "EndTime",
-                        "name": "EndTime",
+                        "name": "endTime",
                         "in": "query"
                     }
                 ],

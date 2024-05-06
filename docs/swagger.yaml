@@ -1167,27 +1167,27 @@ paths:
       parameters:
         - description: PageSize
           in: query
-          name: PageSize
+          name: pageSize
           type: integer
         - description: PageNum
           in: query
-          name: PageNum
+          name: pageNum
           type: integer
         - description: RoleName
           in: query
-          name: RoleName
+          name: roleName
           type: string
         - description: Status
           in: query
-          name: Status
+          name: status
           type: string
         - description: BeginTime
           in: query
-          name: BeginTime
+          name: beginTime
           type: string
         - description: EndTime
           in: query
-          name: EndTime
+          name: endTime
           type: string
       produces:
         - application/json
