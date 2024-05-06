@@ -80,8 +80,13 @@ func (s SysRoleServiceImpl) UpdateSysRoleStatus(c *gin.Context, dto entity.Updat
 
 // DeleteSysRoleById 删除角色
 func (s SysRoleServiceImpl) DeleteSysRoleById(c *gin.Context, dto entity.SysRoleIdDto) {
-	dao.DeleteSysRoleById(dto)
-	result.Success(c, true)
+	deletes := dao.DeleteSysRoleById(dto)
+	if !deletes {
+		result.Failed(c, int(result.ApiCode.DELSYSMUSERAILED), result.ApiCode.GetMessage(result.ApiCode.DELSYSMUSERAILED))
+	} else {
+		result.Success(c, true)
+	}
+
 }
 
 // UpdateSysRole 更新角色

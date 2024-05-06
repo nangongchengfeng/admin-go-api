@@ -33,6 +33,7 @@ type Codes struct {
 	MissingChangePasswordParameter          uint
 	RESETPASSWORD                           uint
 	FILEUPLOADERROR                         uint
+	DELSYSMUSERAILED                        uint
 }
 
 // ApiCode 状态码
@@ -60,6 +61,7 @@ var ApiCode = &Codes{
 	MissingChangePasswordParameter:          421,
 	RESETPASSWORD:                           422,
 	FILEUPLOADERROR:                         427,
+	DELSYSMUSERAILED:                        428,
 }
 
 // init 初始化
@@ -87,6 +89,7 @@ func init() {
 		ApiCode.MissingChangePasswordParameter:          "缺少修改密码参数",
 		ApiCode.RESETPASSWORD:                           "两次输入的密码不一致，请重新输入",
 		ApiCode.FILEUPLOADERROR:                         "文件上传错误",
+		ApiCode.DELSYSMUSERAILED:                        "用户已分配，不能删除",
 	}
 }
 
