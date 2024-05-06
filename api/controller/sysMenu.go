@@ -3,6 +3,8 @@ package controller
 import (
 	"admin-go-api/api/entity"
 	"admin-go-api/api/service"
+	"fmt"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -28,6 +30,8 @@ var sysMenu entity.SysMenu
 func CreateSysMenu(c *gin.Context) {
 
 	_ = c.ShouldBindJSON(&sysMenu)
+	// 使用 fmt.Printf 打印结构体的每个字段
+	fmt.Printf("%+v\n", sysMenu)
 	service.SysMenuService().CreateSysMenu(c, sysMenu)
 }
 
@@ -86,4 +90,17 @@ func GetSysMenuList(c *gin.Context) {
 	menuName := c.Query("menuName")
 	menuStatus := c.Query("menuStatus")
 	service.SysMenuService().GetSysMenuList(c, menuName, menuStatus)
+}
+
+// GetSysMenu 获取菜单详情
+// @Tags 菜单管理
+// @Summary 获取菜单详情
+// @Produce json
+// @Param id query int true "菜单id"
+// @Success 200 {object} entity.SysMenu
+// @router /api/menu/info [get]
+// @Security ApiKeyAuth
+func GetSysMenu(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Query("id"))
+	service.SysMenuService().GetSysMenu(c, id)
 }

@@ -497,13 +497,13 @@
           {
             "type": "string",
             "description": "部门名称",
-            "name": "DeptName",
+            "name": "deptName",
             "in": "query"
           },
           {
             "type": "string",
             "description": "部门状态： 1-\u003e启动 2-\u003e停用",
-            "name": "DeptStatus",
+            "name": "deptStatus",
             "in": "query"
           }
         ],
@@ -674,6 +674,39 @@
             "description": "OK",
             "schema": {
               "$ref": "#/definitions/result.Result"
+            }
+          }
+        }
+      }
+    },
+    "/api/menu/info": {
+      "get": {
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "菜单管理"
+        ],
+        "summary": "获取菜单详情",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "菜单id",
+            "name": "id",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/entity.SysMenu"
             }
           }
         }
@@ -940,37 +973,37 @@
           {
             "type": "string",
             "description": "分页数",
-            "name": "PageNum",
+            "name": "pageNum",
             "in": "query"
           },
           {
             "type": "string",
             "description": "每页数量",
-            "name": "PageSize",
+            "name": "pageSize",
             "in": "query"
           },
           {
             "type": "string",
             "description": "岗位名称",
-            "name": "PostName",
+            "name": "postName",
             "in": "query"
           },
           {
             "type": "string",
             "description": "状态： 1-\u003e启动 2-\u003e停用",
-            "name": "PostStatus",
+            "name": "postStatus",
             "in": "query"
           },
           {
             "type": "string",
             "description": "开始时间",
-            "name": "BeginTime",
+            "name": "beginTime",
             "in": "query"
           },
           {
             "type": "string",
             "description": "结束时间",
-            "name": "EndTime",
+            "name": "endTime",
             "in": "query"
           }
         ],

@@ -46,6 +46,7 @@ func CreateSysMenu(addSysMenu entity.SysMenu) bool {
 			Icon:       addSysMenu.Icon,
 			Url:        addSysMenu.Url,
 			Sort:       addSysMenu.Sort,
+			MenuStatus: addSysMenu.MenuStatus,
 			CreateTime: util.HTime{Time: time.Now()},
 			ParentId:   0,
 		}

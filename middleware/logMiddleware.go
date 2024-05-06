@@ -23,7 +23,7 @@ func LogMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		method := strings.ToLower(c.Request.Method)
 		sysAdmin, _ := jwt.GetAdmin(c)
-		if method != "options" {
+		if method != "get" {
 			log := entity.SysOperationLog{
 				AdminId:    sysAdmin.ID,
 				Username:   sysAdmin.Username,

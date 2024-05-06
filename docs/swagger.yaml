@@ -695,11 +695,11 @@ paths:
       parameters:
         - description: 部门名称
           in: query
-          name: DeptName
+          name: deptName
           type: string
         - description: 部门状态： 1->启动 2->停用
           in: query
-          name: DeptStatus
+          name: deptStatus
           type: string
       produces:
         - application/json
@@ -810,6 +810,26 @@ paths:
       security:
         - ApiKeyAuth: [ ]
       summary: DeleteSysMenu 删除菜单
+      tags:
+        - 菜单管理
+  /api/menu/info:
+    get:
+      parameters:
+        - description: 菜单id
+          in: query
+          name: id
+          required: true
+          type: integer
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.SysMenu'
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 获取菜单详情
       tags:
         - 菜单管理
   /api/menu/list:
@@ -966,27 +986,27 @@ paths:
       parameters:
         - description: 分页数
           in: query
-          name: PageNum
+          name: pageNum
           type: string
         - description: 每页数量
           in: query
-          name: PageSize
+          name: pageSize
           type: string
         - description: 岗位名称
           in: query
-          name: PostName
+          name: postName
           type: string
         - description: 状态： 1->启动 2->停用
           in: query
-          name: PostStatus
+          name: postStatus
           type: string
         - description: 开始时间
           in: query
-          name: BeginTime
+          name: beginTime
           type: string
         - description: 结束时间
           in: query
-          name: EndTime
+          name: endTime
           type: string
       produces:
         - application/json

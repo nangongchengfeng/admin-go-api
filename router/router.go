@@ -83,6 +83,7 @@ func register(router *gin.Engine) {
 		jwt.PUT("/menu/update", controller.UpdateSysMenu)
 		jwt.DELETE("/menu/delete", controller.DeleteSysMenu)
 		jwt.GET("/menu/list", controller.GetSysMenuList)
+		jwt.GET("/menu/info", controller.GetSysMenu)
 
 		// 角色管理
 		jwt.POST("/role/add", controller.CreateSysRole)

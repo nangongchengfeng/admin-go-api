@@ -21,14 +21,14 @@ var sysDept entity.SysDept
 // @Summary 获取部门列表
 // @Tags 部门管理
 // @Produce json
-// @Param DeptName query string false "部门名称"
-// @Param DeptStatus query string false "部门状态： 1->启动 2->停用"
+// @Param deptName query string false "部门名称"
+// @Param deptStatus query string false "部门状态： 1->启动 2->停用"
 // @Success 200 {object} result.Result
 // @router /api/dept/list [get]
 // @Security ApiKeyAuth
 func GetSysDeptList(c *gin.Context) {
-	DeptName := c.Query("DeptName")
-	DeptStatus := c.Query("DeptStatus")
+	DeptName := c.Query("deptName")
+	DeptStatus := c.Query("deptStatus")
 	service.SysDeptService().GetSysDeptList(c, DeptName, DeptStatus)
 }
 

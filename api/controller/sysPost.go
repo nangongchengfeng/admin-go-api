@@ -38,24 +38,24 @@ func CreateSysPost(c *gin.Context) {
 // @Tags 岗位管理
 // @Produce json
 // @Description 获取岗位列表接口
-// @Param PageNum query string false "分页数"
-// @Param PageSize query string false "每页数量"
-// @Param PostName query string false "岗位名称"
-// @Param PostStatus query string false "状态： 1->启动 2->停用"
-// @Param BeginTime query string false "开始时间"
-// @Param EndTime query string false "结束时间"
+// @Param pageNum query string false "分页数"
+// @Param pageSize query string false "每页数量"
+// @Param postName query string false "岗位名称"
+// @Param postStatus query string false "状态： 1->启动 2->停用"
+// @Param beginTime query string false "开始时间"
+// @Param endTime query string false "结束时间"
 // @Success 200 {object} result.Result
 // @router /api/post/list [get]
 // @Security ApiKeyAuth
 func GetSysPostList(c *gin.Context) {
 	var PageNum, PageSize int
 	var PostName, PostStatus, BeginTime, EndTime string
-	PageNum, _ = strconv.Atoi(c.Query("PageNum"))
-	PageSize, _ = strconv.Atoi(c.Query("PageSize"))
-	PostName = c.Query("PostName")
-	PostStatus = c.Query("PostStatus")
-	BeginTime = c.Query("BeginTime")
-	EndTime = c.Query("EndTime")
+	PageNum, _ = strconv.Atoi(c.Query("pageNum"))
+	PageSize, _ = strconv.Atoi(c.Query("pageSize"))
+	PostName = c.Query("postName")
+	PostStatus = c.Query("postStatus")
+	BeginTime = c.Query("beginTime")
+	EndTime = c.Query("endTime")
 	fmt.Println("PageNum:", PageNum, "PageSize:", PageSize, "PostName:", PostName, "PostStatus:", PostStatus, "BeginTime:", BeginTime, "EndTime:", EndTime)
 	service.SysPostService().GetSysPostList(c, PageNum, PageSize, PostName, PostStatus, BeginTime, EndTime)
 }
