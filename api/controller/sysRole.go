@@ -132,12 +132,12 @@ func QuerySysRoleVoList(c *gin.Context) {
 // @Produce json
 // @Tags 角色管理
 // @Description 根据角色id查询菜单数据接口
-// @Param Id query int true "Id"
+// @Param id query int true "id"
 // @Success 200 {object} result.Result
 // @router /api/role/vo/idList [get]
 // @Security ApiKeyAuth
 func QueryRoleMenuIdList(c *gin.Context) {
-	Id, _ := strconv.Atoi(c.Query("Id"))
+	Id, _ := strconv.Atoi(c.Query("id"))
 	service.SysRoleService().QueryRoleMenuIdList(c, Id)
 }
 
