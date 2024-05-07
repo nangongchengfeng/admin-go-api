@@ -1442,23 +1442,27 @@ paths:
       parameters:
       - description: 每页数
         in: query
-        name: PageSize
+        name: pageSize
         type: integer
       - description: 分页数
         in: query
-        name: PageNum
+        name: pageNum
         type: integer
       - description: 用户名
         in: query
-        name: Username
+        name: username
+        type: string
+      - description: 请求
+        in: query
+        name: request
         type: string
       - description: 开始时间
         in: query
-        name: BeginTime
+        name: beginTime
         type: string
       - description: 结束时间
         in: query
-        name: EndTime
+        name: endTime
         type: string
       produces:
       - application/json

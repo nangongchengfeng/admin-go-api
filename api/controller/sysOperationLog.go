@@ -21,21 +21,23 @@ import (
 // @Produce json
 // @Tags 操作日志管理
 // @Description 分页获取操作日志列表接口
-// @Param PageSize query int false "每页数"
-// @Param PageNum query int false "分页数"
-// @Param Username query string false "用户名"
-// @Param BeginTime query string false "开始时间"
-// @Param EndTime query string false "结束时间"
+// @Param pageSize query int false "每页数"
+// @Param pageNum query int false "分页数"
+// @Param username query string false "用户名"
+// @Param request query string false "请求"
+// @Param beginTime query string false "开始时间"
+// @Param endTime query string false "结束时间"
 // @Success 200 {object} result.Result
 // @router /api/sysOperationLog/list [get]
 // @Security ApiKeyAuth
 func GetSysOperationLogList(c *gin.Context) {
 	Username := c.Query("username")
+	Request := c.Query("request")
 	BeginTime := c.Query("beginTime")
 	EndTime := c.Query("endTime")
 	PageSize, _ := strconv.Atoi(c.Query("pageSize"))
 	PageNum, _ := strconv.Atoi(c.Query("pageNum"))
-	service.SysOperationLogService().GetSysOperationLogList(c, Username,
+	service.SysOperationLogService().GetSysOperationLogList(c, Username, Request,
 		BeginTime, EndTime, PageSize, PageNum)
 }
 

@@ -18,7 +18,7 @@ import (
 
 // ISysOperationLogService 接口定义
 type ISysOperationLogService interface {
-	GetSysOperationLogList(c *gin.Context, Username, BeginTime, EndTime string, PageSize, PageNum int)
+	GetSysOperationLogList(c *gin.Context, Username, Request, BeginTime, EndTime string, PageSize, PageNum int)
 	DeleteSysOperationLogById(c *gin.Context, dto entity.SysOperationLogIdDto)
 	BatchDeleteSysOperationLog(c *gin.Context, dto entity.BatchDeleteSysOperationLogDto)
 	CleanSysOperationLog(c *gin.Context)
@@ -47,7 +47,7 @@ func (s SysOperationLogServiceImpl) DeleteSysOperationLogById(c *gin.Context, dt
 }
 
 // GetSysOperationLogList 分页查询
-func (s SysOperationLogServiceImpl) GetSysOperationLogList(c *gin.Context, Username, BeginTime, EndTime string, PageSize, PageNum int) {
+func (s SysOperationLogServiceImpl) GetSysOperationLogList(c *gin.Context, Username, Request, BeginTime, EndTime string, PageSize, PageNum int) {
 	// 分页查询操作日志列表
 	if PageSize < 1 {
 		PageSize = 10
@@ -55,7 +55,7 @@ func (s SysOperationLogServiceImpl) GetSysOperationLogList(c *gin.Context, Usern
 	if PageNum < 1 {
 		PageNum = 1
 	}
-	sysOperationLog, count := dao.GetSysOperationLogList(Username, BeginTime,
+	sysOperationLog, count := dao.GetSysOperationLogList(Username, Request, BeginTime,
 		EndTime, PageSize, PageNum)
 	result.Success(c, map[string]interface{}{"total": count, "pageSize": PageSize,
 		"pageNum": PageNum, "list": sysOperationLog})

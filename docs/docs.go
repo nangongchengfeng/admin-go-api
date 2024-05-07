@@ -1726,31 +1726,37 @@ const docTemplate = `{
                     {
                         "type": "integer",
                         "description": "每页数",
-                        "name": "PageSize",
+                        "name": "pageSize",
                         "in": "query"
                     },
                     {
                         "type": "integer",
                         "description": "分页数",
-                        "name": "PageNum",
+                        "name": "pageNum",
                         "in": "query"
                     },
                     {
                         "type": "string",
                         "description": "用户名",
-                        "name": "Username",
+                        "name": "username",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "请求",
+                        "name": "request",
                         "in": "query"
                     },
                     {
                         "type": "string",
                         "description": "开始时间",
-                        "name": "BeginTime",
+                        "name": "beginTime",
                         "in": "query"
                     },
                     {
                         "type": "string",
                         "description": "结束时间",
-                        "name": "EndTime",
+                        "name": "endTime",
                         "in": "query"
                     }
                 ],

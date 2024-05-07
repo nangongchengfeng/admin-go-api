@@ -19,11 +19,14 @@ func CreateSysOperationLog(dto entity.SysOperationLog) {
 }
 
 // GetSysOperationLogList 分页查询操作日志列表
-func GetSysOperationLogList(Username, BeginTime, EndTime string, PageSize,
+func GetSysOperationLogList(Username, Request, BeginTime, EndTime string, PageSize,
 	PageNum int) (sysOperationLog []entity.SysOperationLog, count int64) {
 	curDb := Db.Table("sys_operation_log")
 	if Username != "" {
 		curDb = curDb.Where("username =?", Username)
+	}
+	if Request != "" {
+		curDb = curDb.Where("method  = ?", Request)
 	}
 	if BeginTime != "" && EndTime != "" {
 		curDb = curDb.Where("`create_time` BETWEEN ? AND ?", BeginTime, EndTime)
