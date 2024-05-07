@@ -140,6 +140,7 @@ func GetSysAdminList(c *gin.Context) {
 	Status := c.Query("status")
 	BeginTime := c.Query("beginTime")
 	EndTime := c.Query("endTime")
+	//fmt.Println("行数", PageSize, "页数", PageNum)
 	service.SysAdminService().GetSysAdminList(c, PageSize, PageNum, Username,
 		Status, BeginTime, EndTime)
 }

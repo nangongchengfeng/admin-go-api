@@ -1410,8 +1410,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Id",
-                        "name": "Id",
+                        "description": "id",
+                        "name": "id",
                         "in": "query",
                         "required": true
                     }

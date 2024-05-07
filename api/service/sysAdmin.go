@@ -6,7 +6,6 @@ import (
 	"admin-go-api/common/result"
 	"admin-go-api/common/util"
 	"admin-go-api/pkg/jwt"
-	"fmt"
 
 	"github.com/go-playground/validator/v10"
 
@@ -111,17 +110,15 @@ func (s SysAdminServiceImpl) UpdatePersonal(c *gin.Context, dto entity.UpdatePer
 }
 
 // GetSysAdminList 获取用户列表
-func (s SysAdminServiceImpl) GetSysAdminList(c *gin.Context, PageNum, PageSize int, UserName, Status, BeginTime, EndTime string) {
+func (s SysAdminServiceImpl) GetSysAdminList(c *gin.Context, PageSize, PageNum int, UserName, Status, BeginTime, EndTime string) {
 	if PageSize < 1 {
 		PageSize = 10
 	}
 	if PageNum < 1 {
 		PageNum = 1
 	}
-	fmt.Println(PageSize, PageNum, UserName, Status, BeginTime, EndTime)
 	sysAdmin, count := dao.GetSysAdminList(PageSize, PageNum, UserName, Status, BeginTime, EndTime)
-	result.Success(c, map[string]interface{}{"total": count, "pageSize": PageSize,
-		"pageNum": PageNum, "list": sysAdmin})
+	result.Success(c, map[string]interface{}{"total": count, "pageSize": PageSize, "pageNum": PageNum, "list": sysAdmin})
 	return
 }
 

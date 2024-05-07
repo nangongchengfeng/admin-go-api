@@ -45,8 +45,6 @@ func isLocalIp(IP net.IP) bool {
 	return false
 }
 func isLANIp(IP net.IP) bool {
-	to4 := IP.To4()
-	fmt.Println(to4)
 	if ip4 := IP.To4(); ip4 != nil {
 		switch true {
 		case ip4[0] == 10:
