@@ -584,6 +584,29 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/hostInfo": {
+            "get": {
+                "description": "获取主机信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "主机信息"
+                ],
+                "summary": "获取主机信息",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"data\":{\"cpu\":{\"cpuNum\":4,\"cpuNumUsed\":0,\"cpuRate\":0},\"disk\":{\"diskNum\":1,\"diskNumUsed\":0,\"diskRate\":0},\"mem\":{\"memNum\":0,\"memNumUsed\":0,\"memRate\":0},\"net\":{\"netNum\":0,\"netNumUsed\":0,\"netRate\":0}}}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/api/login": {
             "post": {
                 "description": "用户登录接口",
