@@ -1,7 +1,6 @@
 package util
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -68,13 +67,36 @@ var (
 
 // GetStartTime 开机时间
 func GetStartTime() string {
-	GetTickCount := kernel.NewProc("GetTickCount")
+	GetTickCount := syscall.NewLazyDLL("kernel32.dll").NewProc("GetTickCount")
 	r, _, _ := GetTickCount.Call()
 	if r == 0 {
-		return ""
+		return "获取时间失败"
 	}
-	ms := time.Duration(r * 1000 * 1000)
-	return ms.String()
+	ms := time.Duration(r * 1000 * 1000) // 转换为纳秒
+
+	days := ms / (24 * time.Hour)
+	ms -= days * 24 * time.Hour
+	hours := ms / time.Hour
+	ms -= hours * time.Hour
+	minutes := ms / time.Minute
+	ms -= minutes * time.Minute
+	seconds := ms / time.Second
+
+	result := ""
+	if days > 0 {
+		result += strconv.FormatInt(int64(days), 10) + "天"
+	}
+	if hours > 0 {
+		result += strconv.FormatInt(int64(hours), 10) + "小时"
+	}
+	if minutes > 0 {
+		result += strconv.FormatInt(int64(minutes), 10) + "分钟"
+	}
+	if seconds > 0 {
+		result += strconv.FormatInt(int64(seconds), 10) + "秒"
+	}
+
+	return result
 }
 
 // GetSystemVersion 系统版本
@@ -246,16 +268,7 @@ func parsePercent(percent string) uint {
 	if err != nil {
 		log.Fatalf("Failed to parse percent value: %v", err)
 	}
-	return uint(value * 100) // 将小数转换为整数百分比
-}
-
-// 将资源信息序列化为 JSON
-func SerializeToJson(resourceInfo SysResourceInfo) string {
-	jsonData, err := json.MarshalIndent(resourceInfo, "", "    ")
-	if err != nil {
-		log.Fatalf("Error serializing data to JSON: %v", err)
-	}
-	return string(jsonData)
+	return uint(value) // 将小数转换为整数百分比
 }
 
 func GetResourceInfo() (resourceInfo SysResourceInfo) {
