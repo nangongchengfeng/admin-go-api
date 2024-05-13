@@ -1,8 +1,8 @@
 package service
 
 import (
+	"admin-go-api/api/entity"
 	"admin-go-api/common/result"
-	"admin-go-api/common/util"
 	"fmt"
 	"runtime"
 
@@ -28,24 +28,24 @@ func (s SysMonitorServiceImpl) GetHostInfo(c *gin.Context) {
 	// 获取操作系统信息
 	os := runtime.GOOS
 	// 声明 os_info
-	var osInfo util.SysResourceInfo
+	var osInfo entity.SysResourceInfo
 
 	// 判断操作系统类型
 	switch os {
 	case "windows":
-		osInfo = util.GetResourceInfo()
-
-		//osInfo = util.SerializeToJson(hostInfo)
-
+		osInfo = GetResourceInfo()
 		fmt.Println("当前操作系统为 Windows")
+		result.Success(c, osInfo)
 	case "linux":
-		//osInfo = "当前操作系统为 Linux"
+		osInfo = GetResourceInfo_Linux()
 		fmt.Println("当前操作系统为 Linux")
+		result.Success(c, osInfo)
 	default:
 		//osInfo = "未知操作系统"
 		fmt.Println("未知操作系统")
+		result.Failed(c, 501, "未知操作系统")
 	}
-	result.Success(c, osInfo)
+
 }
 
 var sysMonitorService = SysMonitorServiceImpl{}

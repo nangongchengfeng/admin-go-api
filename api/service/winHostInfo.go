@@ -1,6 +1,7 @@
-package util
+package service
 
 import (
+	"admin-go-api/api/entity"
 	"fmt"
 	"log"
 	"os"
@@ -21,49 +22,6 @@ import (
  * @Email: 1794748404@qq.com
  * @Date: 2024-05-13 10:55
  */
-
-type SysResourceInfo struct {
-	Host        HostInfo   `json:"host"`
-	CPU         CPUInfo    `json:"cpu"`
-	Memory      MemoryInfo `json:"memory"`
-	Disk        DiskInfo   `json:"disk"`
-	ProcessMem  uint       `json:"pmem"`
-	ProcessDisk uint       `json:"pdisk"`
-}
-
-type HostInfo struct {
-	Hostname string `json:"hostname"`
-	Uptime   string `json:"uptime"`
-	OS       string `json:"os"`
-	Kernel   string `json:"kernel"`
-}
-
-type CPUInfo struct {
-	Cores     string `json:"cores"`
-	VendorID  string `json:"vendorId"`
-	ModelName string `json:"modelName"`
-}
-
-type MemoryInfo struct {
-	Total       string `json:"total"`
-	Available   string `json:"available"`
-	Used        string `json:"used"`
-	UsedPercent string `json:"usedPercent"`
-}
-
-type DiskInfo struct {
-	Path        string `json:"path"`
-	FsType      string `json:"fstype"`
-	Total       string `json:"total"`
-	Free        string `json:"free"`
-	Used        string `json:"used"`
-	UsedPercent string `json:"usedPercent"`
-}
-
-var (
-	advapi = syscall.NewLazyDLL("Advapi32.dll")
-	kernel = syscall.NewLazyDLL("Kernel32.dll")
-)
 
 // GetStartTime 开机时间
 func GetStartTime() string {
@@ -194,7 +152,7 @@ type memoryStatusEx struct {
 }
 
 // 获取内存信息
-func GetMemory() MemoryInfo {
+func GetMemory() entity.MemoryInfo {
 	kernel32 := syscall.NewLazyDLL("kernel32.dll")
 	GlobalMemoryStatusEx := kernel32.NewProc("GlobalMemoryStatusEx")
 
@@ -204,7 +162,7 @@ func GetMemory() MemoryInfo {
 	mem, _, callErr := GlobalMemoryStatusEx.Call(uintptr(unsafe.Pointer(&memInfo)))
 	if mem == 0 {
 		fmt.Println("Call to GlobalMemoryStatusEx failed:", callErr)
-		return MemoryInfo{}
+		return entity.MemoryInfo{}
 	}
 
 	total := fmt.Sprintf("%dGB", memInfo.ullTotalPhys/1024/1024/1024)
@@ -212,7 +170,7 @@ func GetMemory() MemoryInfo {
 	used := fmt.Sprintf("%dGB", (memInfo.ullTotalPhys-memInfo.ullAvailPhys)/1024/1024/1024)
 	usedPercent := fmt.Sprintf("%.2f%%", float64(memInfo.dwMemoryLoad))
 
-	return MemoryInfo{
+	return entity.MemoryInfo{
 		Total:       total,
 		Available:   available,
 		Used:        used,
@@ -220,7 +178,7 @@ func GetMemory() MemoryInfo {
 	}
 }
 
-func usage(getDiskFreeSpaceExW *syscall.LazyProc, path string) (DiskInfo, error) {
+func usage(getDiskFreeSpaceExW *syscall.LazyProc, path string) (entity.DiskInfo, error) {
 	lpFreeBytesAvailable := int64(0)
 	var totalBytes, freeBytes int64
 	diskret, _, err := getDiskFreeSpaceExW.Call(
@@ -230,14 +188,14 @@ func usage(getDiskFreeSpaceExW *syscall.LazyProc, path string) (DiskInfo, error)
 		uintptr(unsafe.Pointer(&freeBytes)),
 	)
 	if diskret == 0 {
-		return DiskInfo{}, err
+		return entity.DiskInfo{}, err
 	}
 	total := totalBytes / (1024 * 1024 * 1024) // convert to GB
 	free := freeBytes / (1024 * 1024 * 1024)   // convert to GB
 	used := total - free
 	usedPercent := float64(used) / float64(total) * 100
 
-	return DiskInfo{
+	return entity.DiskInfo{
 		Path:        path,
 		FsType:      "", // Assuming no filesystem type information
 		Total:       fmt.Sprintf("%dGB", total),
@@ -248,7 +206,7 @@ func usage(getDiskFreeSpaceExW *syscall.LazyProc, path string) (DiskInfo, error)
 }
 
 // GetDiskInfo 获取硬盘信息，只返回C盘的信息
-func GetDiskInfo() DiskInfo {
+func GetDiskInfo() entity.DiskInfo {
 	kernel32 := syscall.NewLazyDLL("kernel32.dll")
 	GetDiskFreeSpaceExW := kernel32.NewProc("GetDiskFreeSpaceExW")
 
@@ -256,7 +214,7 @@ func GetDiskInfo() DiskInfo {
 	info, err := usage(GetDiskFreeSpaceExW, "C:\\")
 	if err != nil {
 		fmt.Println("Error retrieving disk usage:", err)
-		return DiskInfo{}
+		return entity.DiskInfo{}
 	}
 
 	return info
@@ -271,22 +229,22 @@ func parsePercent(percent string) uint {
 	return uint(value) // 将小数转换为整数百分比
 }
 
-func GetResourceInfo() (resourceInfo SysResourceInfo) {
+func GetResourceInfo() (resourceInfo entity.SysResourceInfo) {
 	// 创建 HostInfo 实例，并赋值
-	host := HostInfo{
+	host := entity.HostInfo{
 		Hostname: getHostname(),
 		Uptime:   GetStartTime(),
 		OS:       GetSystemVersion(),
 		Kernel:   GetMotherboardInfo(),
 	}
 	memInfo := GetMemory()
-	cpuInfo := CPUInfo{
+	cpuInfo := entity.CPUInfo{
 		Cores:     GetCores(),
 		VendorID:  GetVendorID(),
 		ModelName: GetModelName(),
 	}
 	diskInfo := GetDiskInfo()
-	resourceInfo = SysResourceInfo{
+	resourceInfo = entity.SysResourceInfo{
 		Host:   host,
 		CPU:    cpuInfo,
 		Memory: memInfo,
