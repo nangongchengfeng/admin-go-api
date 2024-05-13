@@ -8,6 +8,7 @@ import (
 	"os/exec"
 	"strconv"
 	"strings"
+	"sync"
 	"syscall"
 	"time"
 	"unsafe"
@@ -230,26 +231,90 @@ func parsePercent(percent string) uint {
 }
 
 func GetResourceInfo() (resourceInfo entity.SysResourceInfo) {
-	// 创建 HostInfo 实例，并赋值
-	host := entity.HostInfo{
-		Hostname: getHostname(),
-		Uptime:   GetStartTime(),
-		OS:       GetSystemVersion(),
-		Kernel:   GetMotherboardInfo(),
-	}
-	memInfo := GetMemory()
-	cpuInfo := entity.CPUInfo{
-		Cores:     GetCores(),
-		VendorID:  GetVendorID(),
-		ModelName: GetModelName(),
-	}
-	diskInfo := GetDiskInfo()
+	var wg sync.WaitGroup
+	// 创建用于传递各种信息的 channels
+	hostnameChan := make(chan string, 1)
+	uptimeChan := make(chan string, 1)
+	osChan := make(chan string, 1)
+	kernelChan := make(chan string, 1)
+	memChan := make(chan entity.MemoryInfo, 1)
+	cpuChan := make(chan entity.CPUInfo, 1)
+	diskChan := make(chan entity.DiskInfo, 1)
+
+	wg.Add(7) // 七个并行任务
+
+	// 获取主机名
+	go func() {
+		defer wg.Done()
+		hostnameChan <- getHostname()
+	}()
+
+	// 获取启动时间
+	go func() {
+		defer wg.Done()
+		uptimeChan <- GetStartTime()
+	}()
+
+	// 获取操作系统版本
+	go func() {
+		defer wg.Done()
+		osChan <- GetSystemVersion()
+	}()
+
+	// 获取主板信息
+	go func() {
+		defer wg.Done()
+		kernelChan <- GetMotherboardInfo()
+	}()
+
+	// 获取内存信息
+	go func() {
+		defer wg.Done()
+		memInfo := GetMemory()
+		memChan <- memInfo
+	}()
+
+	// 获取CPU信息
+	go func() {
+		defer wg.Done()
+		cpuInfo := entity.CPUInfo{
+			Cores:     GetCores(),
+			VendorID:  GetVendorID(),
+			ModelName: GetModelName(),
+		}
+		cpuChan <- cpuInfo
+	}()
+
+	// 获取磁盘信息
+	go func() {
+		defer wg.Done()
+		diskInfo := GetDiskInfo()
+
+		diskChan <- diskInfo
+	}()
+
+	wg.Wait() // 等待所有 goroutine 完成
+
+	// 从 channels 读取数据
+	hostname := <-hostnameChan
+	uptime := <-uptimeChan
+	os := <-osChan
+	kernel := <-kernelChan
+	memInfo := <-memChan
+	cpuInfo := <-cpuChan
+	diskInfo := <-diskChan
+
+	// 汇总信息
 	resourceInfo = entity.SysResourceInfo{
-		Host:   host,
-		CPU:    cpuInfo,
-		Memory: memInfo,
-		Disk:   diskInfo,
-		// 这里的进程内存和磁盘使用数据是示例，需要实际获取
+		Host: entity.HostInfo{
+			Hostname: hostname,
+			Uptime:   uptime,
+			OS:       os,
+			Kernel:   kernel,
+		},
+		CPU:         cpuInfo,
+		Memory:      memInfo,
+		Disk:        diskInfo,
 		ProcessMem:  parsePercent(memInfo.UsedPercent),
 		ProcessDisk: parsePercent(diskInfo.UsedPercent),
 	}
